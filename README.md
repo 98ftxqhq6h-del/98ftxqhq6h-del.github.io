@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=250&color=0:6a11cb,100:2575fc&text=Anurag%20Kumar&fontSize=50&fontColor=ffffff&animation=fadeIn&fontAlignY=40&desc=AI%20Developer%20|%20Python%20|%20Ollama%20|%20Open%20Source&descAlignY=60&descSize=20" />
+</p>
 <h1 align="center">Hi 👋, I'm Anurag Kumar</h1>
 
 <p align="center">
