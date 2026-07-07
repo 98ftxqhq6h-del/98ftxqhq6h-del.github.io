@@ -11,6 +11,11 @@
 ---
 
 ## 🛠 Tech Stack
+## ⚒️ Languages & Tools
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=python,html,css,js,git,github,vscode,linux"/>
+</p>
 
 - Python
 - HTML
