@@ -43,4 +43,12 @@
 
 📧 anurag798826@gmail.com
 
-⭐ Thanks for visiting my profile!
+⭐ Thanks for visiting my profile
+## 📊 GitHub Stats
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=98ftxqhq6h-del&show_icons=true&theme=tokyonight)
+
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=98ftxqhq6h-del&layout=compact&theme=tokyonight)
+
+![GitHub Streak](https://streak-stats.demolab.com?user=98ftxqhq6h-del&theme=tokyonight)
+
