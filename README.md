@@ -1,4 +1,7 @@
 <p align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=28&duration=2500&pause=800&color=00FFEA&center=true&vCenter=true&width=900&lines=SYSTEM+BOOTING...;WELCOME+TO+MY+CYBERSPACE;AI+Developer;Python+Engineer;Building+Nexus+AI;Open+Source+Contributor"/>
+</p>
+<p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&height=280&color=0:00F5FF,50:8A2BE2,100:FF00FF&text=ANURAG%20KUMAR&fontColor=ffffff&fontSize=55&animation=twinkling&desc=AI%20Developer%20•%20Cyberpunk%20•%20Python%20•%20Open%20Source&descAlignY=68"/>
 </p>
 <p align="center">
