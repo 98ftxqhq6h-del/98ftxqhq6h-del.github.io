@@ -12,7 +12,39 @@
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&color=00F7FF&center=true&vCenter=true&width=700&lines=AI+Developer;Python+Programmer;Ollama+Developer;Building+Nexus+AI;Stock+Market+Enthusiast;Open+Source+Learner" />
 </p>
+## 💀 SYSTEM TERMINAL
 
+```bash
+┌──(anurag㉿nexus)-[~/AI]
+└─$ whoami
+Anurag Kumar
+
+┌──(anurag㉿nexus)-[~/AI]
+└─$ role
+AI Developer
+
+┌──(anurag㉿nexus)-[~/AI]
+└─$ skills
+Python
+JavaScript
+HTML
+CSS
+Git
+Linux
+
+┌──(anurag㉿nexus)-[~/AI]
+└─$ current_project
+Nexus AI
+Share Market Brain
+
+┌──(anurag㉿nexus)-[~/AI]
+└─$ status
+Building the Future...
+
+┌──(anurag㉿nexus)-[~/AI]
+└─$ sudo access
+ACCESS GRANTED ✓
+```
 ## 🚀 About Me
 
 - 💻 Learning AI & Python
