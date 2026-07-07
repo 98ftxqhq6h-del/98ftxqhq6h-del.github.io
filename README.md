@@ -90,4 +90,12 @@
 <img src="https://img.shields.io/badge/AI-FF6F00?style=for-the-badge"/>
 
 </p>
+## 📊 GitHub Stats
 
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=98ftxqhq6h-del&show_icons=true&theme=tokyonight" />
+</p>
+
+<p align="center">
+  <img src="https://streak-stats.demolab.com?user=98ftxqhq6h-del&theme=tokyonight" />
+</p>
