@@ -1,4 +1,8 @@
-# Hi 👋, I'm Anurag Kumar
+<h1 align="center">Hi 👋, I'm Anurag Kumar</h1>
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&color=00F7FF&center=true&vCenter=true&width=700&lines=AI+Developer;Python+Programmer;Ollama+Developer;Building+Nexus+AI;Stock+Market+Enthusiast;Open+Source+Learner" />
+</p>
 
 ## 🚀 About Me
 
