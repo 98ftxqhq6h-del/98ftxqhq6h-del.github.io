@@ -1,4 +1,7 @@
 <p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=280&color=0:00F5FF,50:8A2BE2,100:FF00FF&text=ANURAG%20KUMAR&fontColor=ffffff&fontSize=55&animation=twinkling&desc=AI%20Developer%20•%20Cyberpunk%20•%20Python%20•%20Open%20Source&descAlignY=68"/>
+</p>
+<p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&height=250&color=0:6a11cb,100:2575fc&text=Anurag%20Kumar&fontSize=50&fontColor=ffffff&animation=fadeIn&fontAlignY=40&desc=AI%20Developer%20|%20Python%20|%20Ollama%20|%20Open%20Source&descAlignY=60&descSize=20" />
 </p>
 <h1 align="center">Hi 👋, I'm Anurag Kumar</h1>
