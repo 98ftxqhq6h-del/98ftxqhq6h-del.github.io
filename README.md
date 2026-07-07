@@ -99,3 +99,16 @@
 <p align="center">
   <img src="https://streak-stats.demolab.com?user=98ftxqhq6h-del&theme=tokyonight" />
 </p>
+## 💻 Most Used Languages
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=98ftxqhq6h-del&layout=compact&theme=tokyonight" />
+</p>
+
+---
+
+## 📈 GitHub Activity Graph
+
+<p align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=98ftxqhq6h-del&theme=tokyo-night" />
+</p>
