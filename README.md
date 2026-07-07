@@ -68,4 +68,17 @@
 <p align="center">
   <img src="https://github.com/98ftxqhq6h-del/98ftxqhq6h-del/blob/output/github-contribution-grid-snake-dark.svg" alt="Snake animation" />
 </p>
+<p align="center">
+
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
+
+<img src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode"/>
+
+<img src="https://img.shields.io/badge/AI-FF6F00?style=for-the-badge"/>
+
+</p>
 
