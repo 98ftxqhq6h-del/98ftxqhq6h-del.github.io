@@ -1,0 +1,24 @@
+name: Lint Files
+
+on:
+  pull_request:
+    branches: ["main", "dev"]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lint HTML
+        run: npx htmlhint index.html
+
+      - name: Lint JS Syntax
+        run: node --check script.js
