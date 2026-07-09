@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozy Lofi Anime House - Live Animation</title>
+  <link rel="stylesheet" href="anime_house.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+</head>
+<body class="sunset">
+
+  <!-- ─── BACKGROUND ARTWORK CONTAINER ─── -->
+  <div class="parallax-wrap">
+    <div class="background-art" id="bgArt"></div>
+    <div class="lantern-glow red-lantern"></div>
+    <div class="lantern-glow yellow-lantern"></div>
+    <div class="window-glow cottage-window"></div>
+  </div>
+
+  <!-- ─── CANVAS PARTICLE LAYERS ─── -->
+  <canvas id="sakuraCanvas" class="particles-layer"></canvas>
+  <canvas id="rainCanvas" class="particles-layer"></canvas>
+
+  <!-- ─── MAIN LIVE-WALLPAPER VIEWPORT UI ─── -->
+  <div class="app-container">
+    
+    <!-- Top-left: Return home -->
+    <a href="index.html" class="home-link mono">← PORTFOLIO</a>
+
+    <!-- Bottom-left: Cozy Dashboard -->
+    <div class="cozy-dashboard">
+      <div class="clock-panel mono">
+        <span id="timeDisplay">00:00:00</span>
+        <span id="dateDisplay">SYSTEM_INIT</span>
+      </div>
+      <div class="quote-panel">
+        <p id="cozyQuote">"Coding in the quiet shade of the sakura."</p>
+      </div>
+    </div>
+
+    <!-- Bottom-right: Mood Controllers Panel -->
+    <div class="control-console">
+      <div class="console-section">
+        <div class="section-title mono">// Ambiance</div>
+        <div class="btn-group">
+          <button class="console-btn active" id="btnSunset" data-filter="sunset">SUNSET</button>
+          <button class="console-btn" id="btnNight" data-filter="night">NIGHT</button>
+          <button class="console-btn" id="btnDay" data-filter="day">DAY</button>
+        </div>
+      </div>
+
+      <div class="console-section">
+        <div class="section-title mono">// Weather</div>
+        <button class="console-btn toggle-btn" id="btnRain">RAIN: OFF</button>
+      </div>
+
+      <div class="console-section">
+        <div class="section-title mono">// Audio Pipeline</div>
+        <div class="audio-control-row">
+          <div class="audio-item">
+            <span class="mono">LOFI_BEATS</span>
+            <button class="console-btn audio-btn" id="btnMusic">PLAY</button>
+          </div>
+          <div class="audio-item">
+            <span class="mono">RAIN_ASMR</span>
+            <button class="console-btn audio-btn" id="btnRainSound" disabled>PLAY</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── AUDIO ASSETS ─── -->
+  <audio id="audioLofi" loop src="https://assets.codepen.io/25868/lofi-song.mp3" crossorigin="anonymous"></audio>
+  <audio id="audioRain" loop src="https://assets.codepen.io/25868/rain-ambient.mp3" crossorigin="anonymous"></audio>
+
+  <!-- Scripts -->
+  <script src="anime_house.js"></script>
+</body>
+</html>
