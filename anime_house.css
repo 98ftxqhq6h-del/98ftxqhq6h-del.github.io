@@ -316,6 +316,59 @@ body.day .lantern-glow, body.day .window-glow {
   cursor: not-allowed;
 }
 
+/* ─── MOVING MAN DEVELOPER SILHOUETTE ─── */
+.moving-man {
+  position: absolute;
+  left: 61.35%;
+  top: 61.2%;
+  width: 3.5%;
+  height: 8.5%;
+  z-index: 1;
+  pointer-events: none;
+  transform-origin: bottom center;
+}
+
+/* Day/Night adjustments for screen glow */
+body.day .screen-glow {
+  opacity: 0.15;
+}
+
+body.night .screen-glow {
+  filter: drop-shadow(0 0 4px rgba(63, 221, 196, 0.8));
+}
+
+/* Animations */
+.character-body {
+  transform-origin: bottom center;
+  animation: characterBreathe 4s infinite ease-in-out;
+}
+
+.character-arms {
+  transform-origin: 54px 62px;
+  animation: characterType 0.15s infinite alternate ease-in-out;
+}
+
+.screen-glow {
+  transform-origin: 40px 73px;
+  animation: flickerGlow 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes characterBreathe {
+  0% { transform: scaleY(1) translateY(0); }
+  50% { transform: scaleY(1.025) translateY(-0.3px); }
+  100% { transform: scaleY(1) translateY(0); }
+}
+
+@keyframes characterType {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(0.5px) rotate(-1.5deg); }
+}
+
+@keyframes flickerGlow {
+  0% { opacity: 0.35; fill: rgba(63, 221, 196, 0.2); }
+  100% { opacity: 0.85; fill: rgba(63, 221, 196, 0.5); }
+}
+
 /* ─── RESPONSIVE VIEWPORTS ─── */
 @media (max-width: 768px) {
   .app-container {
