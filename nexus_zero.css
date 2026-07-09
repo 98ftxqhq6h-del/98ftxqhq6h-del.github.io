@@ -1,0 +1,498 @@
+:root {
+  --bg-dark: #07090e;
+  --panel-bg: rgba(7, 9, 14, 0.75);
+  --neon-cyan: #00f0ff;
+  --neon-red: #ff3b30;
+  --matrix-green: #39ff14;
+  --neon-yellow: #ffcc00;
+  --border-color: rgba(0, 240, 255, 0.25);
+  --font-hud: 'Share Tech Mono', monospace;
+  --font-body: 'Outfit', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-body);
+  user-select: none;
+}
+
+#gameContainer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Mono utility */
+.mono {
+  font-family: var(--font-hud);
+  letter-spacing: 1px;
+}
+
+/* HUD elements */
+#hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.system-tag {
+  color: var(--neon-cyan);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.battery-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--neon-cyan);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.battery-bar {
+  width: 60px;
+  height: 10px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#batteryIndicator {
+  height: 100%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
+  transition: width 0.3s ease;
+}
+
+/* Crosshair aiming target */
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#crosshair::before, #crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 6px var(--neon-cyan);
+}
+
+#crosshair::before {
+  top: 7px;
+  left: -2px;
+  width: 20px;
+  height: 2px;
+}
+
+#crosshair::after {
+  top: -2px;
+  left: 7px;
+  width: 2px;
+  height: 20px;
+}
+
+/* HUD Box templates */
+.hud-box {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: 4px;
+  pointer-events: auto;
+  min-width: 280px;
+}
+
+.hud-label {
+  color: rgba(0, 240, 255, 0.6);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.health-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#healthVal {
+  color: var(--neon-cyan);
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.health-track {
+  flex-grow: 1;
+  height: 12px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#healthBar {
+  height: 100%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+  transition: width 0.2s ease;
+}
+
+.weapon-info {
+  color: var(--neon-cyan);
+  font-size: 14px;
+}
+
+.ammo-grid {
+  display: flex;
+  gap: 3px;
+  margin-top: 6px;
+}
+
+.ammo-cell {
+  width: 6px;
+  height: 15px;
+  background: var(--neon-cyan);
+  opacity: 0.8;
+}
+
+.ammo-cell.empty {
+  opacity: 0.15;
+  background: #fff;
+}
+
+/* Logs and actions output terminal */
+.bottom-right {
+  display: flex;
+  flex-direction: column;
+  max-height: 160px;
+  width: 320px;
+}
+
+#logConsole {
+  flex-grow: 1;
+  overflow-y: auto;
+  font-size: 11px;
+  color: #fff;
+  opacity: 0.9;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+#logConsole::-webkit-scrollbar {
+  width: 4px;
+}
+
+#logConsole::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+/* Cyberdeck Overlay Layer (Hacking screen) */
+#cyberdeckOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: none;
+  background: rgba(0, 15, 5, 0.35);
+  backdrop-filter: blur(1.5px);
+  pointer-events: auto;
+}
+
+.cyberdeck-header {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cyberdeck-scanline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.cyberdeck-grid-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* Floating hack action menu */
+#hackMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 12, 4, 0.95);
+  border: 2px solid var(--matrix-green);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+  width: 320px;
+  padding: 24px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 15;
+}
+
+.hack-title {
+  color: var(--matrix-green);
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 6px var(--matrix-green);
+}
+
+.hack-btn {
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid var(--matrix-green);
+  color: var(--matrix-green);
+  font-family: var(--font-hud);
+  font-size: 13px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.hack-btn:hover {
+  background: var(--matrix-green);
+  color: #000;
+  box-shadow: 0 0 10px var(--matrix-green);
+}
+
+.hack-btn.cancel {
+  border-color: var(--neon-red);
+  color: var(--neon-red);
+  background: rgba(255, 59, 48, 0.05);
+  text-align: center;
+}
+
+.hack-btn.cancel:hover {
+  background: var(--neon-red);
+  color: #fff;
+  box-shadow: 0 0 10px var(--neon-red);
+}
+
+/* Blocker Overlay styles */
+#blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(14, 18, 28, 0.96) 30%, rgba(7, 9, 14, 1) 100%);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+  padding: 20px;
+}
+
+#instructions {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(14, 18, 28, 0.7);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 36px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.title-container {
+  margin-bottom: 24px;
+}
+
+.logo-title {
+  font-size: 38px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.logo-subtitle {
+  font-size: 11px;
+  color: var(--neon-cyan);
+  letter-spacing: 6px;
+  opacity: 0.6;
+}
+
+.guide-text {
+  font-size: 12px;
+  color: #a0aec0;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* Controls list layout */
+.controls-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  align-items: center;
+}
+
+.key {
+  color: var(--neon-yellow);
+  background: rgba(255, 204, 0, 0.1);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.action {
+  color: #e2e8f0;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, #0088ff 100%);
+  border: none;
+  color: #000;
+  font-family: var(--font-hud);
+  font-size: 16px;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+  margin-bottom: 16px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px var(--neon-cyan);
+}
+
+.back-link {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 12px;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--neon-red);
+}
+
+/* Glitch Title Text Effect */
+.glitch-text {
+  position: relative;
+  color: var(--matrix-green);
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 8px var(--matrix-green);
+}
+
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 var(--neon-cyan);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 var(--neon-red);
+  clip: rect(85px, 450px, 140px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(15px, 9999px, 66px, 0); }
+  100% { clip: rect(34px, 9999px, 55px, 0); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(70px, 9999px, 105px, 0); }
+  100% { clip: rect(12px, 9999px, 85px, 0); }
+}

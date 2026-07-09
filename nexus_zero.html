@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS // ZERO PROTOCOL</title>
+  <link rel="stylesheet" href="nexus_zero.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- Three.js Library -->
+  <script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
+</head>
+<body>
+  <!-- Deep Space Canvas Container -->
+  <div id="gameContainer"></div>
+
+  <!-- Diegetic Retro HUD Overlay -->
+  <div id="hud">
+    <!-- Top Bar: Diagnostics -->
+    <div class="top-bar">
+      <div class="system-tag mono">SYS_LINK: ACTIVE // SIGNAL: 98.4%</div>
+      <div class="battery-panel mono">
+        DECK_CELLS: <span id="battVal">100%</span>
+        <div class="battery-bar"><div id="batteryIndicator" style="width: 100%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Center Aim Reticle -->
+    <div id="crosshair"></div>
+
+    <!-- Bottom Left: Vitals & Weaponry -->
+    <div class="hud-box bottom-left">
+      <div class="hud-label mono">BIOMETRICS // COGNITIVE_SYNC</div>
+      <div class="health-display">
+        <span id="healthVal" class="mono">100 HP</span>
+        <div class="health-track"><div id="healthBar" style="width: 100%;"></div></div>
+      </div>
+      <div class="weapon-info mono" style="margin-top: 10px;">
+        RAILGUN_CHARGE: <span id="ammoVal">30</span>/30
+        <div class="ammo-grid" id="ammoGrid"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Right: Active Diagnostics Terminal Logs -->
+    <div class="hud-box bottom-right">
+      <div class="hud-label mono">CYBERDECK // NETWORK_LOGS</div>
+      <div id="logConsole" class="mono">
+        <div>&gt; INIT SYSTEM...</div>
+        <div>&gt; NEUROLINK COGNITIVE HANDSHAKE: SUCCESS</div>
+        <div>&gt; SCAN NETWORK NODE USING [Q] KEY</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cyberdeck Terminal overlay (Visible in Hacking Mode) -->
+  <div id="cyberdeckOverlay">
+    <div class="cyberdeck-header mono">
+      <div class="glitch-text" data-text="CYBERDECK_V2.09_ACTIVE">CYBERDECK_V2.09_ACTIVE</div>
+      <div style="color: var(--matrix-green);">TIME_DILATION_RATIO: 0.40X</div>
+    </div>
+    
+    <!-- Floating Hack Selector menu -->
+    <div id="hackMenu" class="mono">
+      <div class="hack-title">SELECT_SUBROUTINE</div>
+      <button class="hack-btn" id="btnPing">PING_HOSTS [COST: 15%]</button>
+      <button class="hack-btn" id="btnOverload">OVERLOAD_CAPACITOR [COST: 40%]</button>
+      <button class="hack-btn" id="btnHijack">HIJACK_CAMERA_NODE [COST: 50%]</button>
+      <button class="hack-btn cancel" id="btnCancel">DISCONNECT_DECK</button>
+    </div>
+
+    <div class="cyberdeck-scanline"></div>
+    <div class="cyberdeck-grid-overlay"></div>
+  </div>
+
+  <!-- Boot screen / Blocker interface -->
+  <div id="blocker">
+    <div id="instructions">
+      <div class="title-container">
+        <h1 class="logo-title mono">NEXUS // ZERO</h1>
+        <div class="logo-subtitle mono">PROTOCOL PROTOCOL PROTOCOL</div>
+      </div>
+      
+      <p class="guide-text mono">
+        SYSTEM DETECTED A HIGH-PRIORITY LOGIC FRAGMENT CAPABLE OF SHUTTING DOWN THE GLOBAL NEURAL GRID. 
+        YOU ARE CURRENTLY INSIDE GEOTHERMAL SECTOR 9. INFILTRATE THE BUNKERS AND PURGE CORPORATE SECURITY.
+      </p>
+
+      <div class="controls-card">
+        <div class="control-row mono">
+          <span class="key">W, A, S, D</span> <span class="action">TRANSLATE PLAYER COORDINATES</span>
+        </div>
+        <div class="control-row mono">
+          <span class="key">MOUSE</span> <span class="action">LOOK AIMING VIEWPORT</span>
+        </div>
+        <div class="control-row mono">
+          <span class="key">LEFT CLICK</span> <span class="action">DISCHARGE RAILGUN PROJECTILE</span>
+        </div>
+        <div class="control-row mono">
+          <span class="key">Q / TAB</span> <span class="action">DEPLOY CYBERDECK (HACKING MODE)</span>
+        </div>
+        <div class="control-row mono">
+          <span class="key">R</span> <span class="action">RELOAD RAILGUN CELLS</span>
+        </div>
+      </div>
+
+      <button class="btn-primary mono" id="playBtn">INITIATE_PROTOCOL_RESET</button>
+      <a href="index.html" class="back-link mono">← ABORT_MISSION_EXIT</a>
+    </div>
+  </div>
+
+  <script src="nexus_zero.js"></script>
+</body>
+</html>
