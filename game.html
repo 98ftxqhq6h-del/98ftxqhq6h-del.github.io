@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Shadow: 3D Battle Arena</title>
+  <link rel="stylesheet" href="game.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+
+  <!-- ─── 3D WEBGL CONTAINER ─── -->
+  <div id="gameContainer"></div>
+
+  <!-- ─── CENTRAL CROSSHAIR ─── -->
+  <div id="crosshair"></div>
+
+  <!-- ─── TACTICAL HUD OVERLAYS ─── -->
+  <div class="hud-container">
+    
+    <!-- Top HUD: Return Home & Score Board -->
+    <div class="hud-top">
+      <a href="index.html" class="hud-btn mono">← PORTFOLIO</a>
+      <div class="hud-panel score-panel mono">
+        SCORE: <span id="scoreVal">000</span>
+      </div>
+      <div class="hud-panel target-panel mono">
+        HOSTILES: <span id="hostilesVal">3</span>
+      </div>
+    </div>
+
+    <!-- Bottom HUD: Vital Signs & Weapons Load -->
+    <div class="hud-bottom">
+      <div class="hud-panel vitals-panel">
+        <div class="panel-label mono">// VITALS</div>
+        <div class="bar-container">
+          <div class="hud-bar health-bar" id="healthBar" style="width: 100%;"></div>
+        </div>
+        <div class="bar-value mono" id="healthVal">100 HP</div>
+      </div>
+
+      <div class="hud-panel weapons-panel">
+        <div class="panel-label mono">// WEAPONS LOAD</div>
+        <div class="ammo-info">
+          <span class="ammo-val mono" id="ammoVal">30</span>
+          <span class="ammo-max mono">/ 30</span>
+        </div>
+        <div class="weapon-status mono" id="reloadPrompt">READY</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── POINTERLOCK BLOCKER MENU ─── -->
+  <div id="blocker">
+    <div id="instructions">
+      <div class="glitch-title mono" data-text="NEXUS SHADOW">NEXUS SHADOW</div>
+      <p class="subtitle mono">3D TACTICAL BATTLEGROUND // V1.0</p>
+      
+      <button class="play-btn mono" id="playBtn">INITIATE_COMBAT</button>
+
+      <div class="controls-guide">
+        <div class="guide-title mono">// SYSTEMS_INPUT_MAP</div>
+        <div class="grid-guide">
+          <div class="guide-item"><span class="key">W,A,S,D</span><span class="label">MOVEMENT</span></div>
+          <div class="guide-item"><span class="key">SPACE</span><span class="label">JUMP</span></div>
+          <div class="guide-item"><span class="key">MOUSE</span><span class="label">AIM_LOOK</span></div>
+          <div class="guide-item"><span class="key">CLICK</span><span class="label">SHOOT_RAY</span></div>
+          <div class="guide-item"><span class="key">R</span><span class="label">RELOAD</span></div>
+        </div>
+      </div>
+
+      <div class="warning mono">PRO TIP: RED CUBES ARE ENEMY TARGETS. AVOID COLLISION!</div>
+    </div>
+  </div>
+
+  <!-- Three.js CDN dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Three.js custom local setup logic -->
+  <script src="game.js"></script>
+</body>
+</html>

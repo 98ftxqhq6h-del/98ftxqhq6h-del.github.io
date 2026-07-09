@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "name": "Portfolio & Tech Vault",
+      "path": "."
+    },
+    {
+      "name": "Anime Hindi Dub Project",
+      "path": "/Users/anuragkuamr/Projects/anime-hindi-dub"
+    },
+    {
+      "name": "Amity University Repo",
+      "path": "/Users/anuragkuamr/amity-university"
+    }
+  ],
+  "settings": {
+    "workbench.colorTheme": "Dark Modern"
+  }
+}
