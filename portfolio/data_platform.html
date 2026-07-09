@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' http://localhost:11434 https://ipapi.co https://api.open-meteo.com https://api.coingecko.com ws: wss:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>OPEN DATA PLATFORM // TELEMETRY</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="data_platform.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Space Background Net -->
+  <div class="space-net"></div>
+
+  <div class="dash-wrapper">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="header-main">
+        <a href="index.html" class="nav-back mono">← PORTFOLIO</a>
+        <h1 class="dash-title mono">OPEN_DATA_PLATFORM // TELEMETRY_CENTER</h1>
+      </div>
+      <div class="sync-panel mono">
+        NETWORK STATUS: <span id="networkState" class="status-badge online">ONLINE</span>
+      </div>
+    </header>
+
+    <!-- Widgets Grid -->
+    <div class="dash-grid">
+      <!-- Card 1: System Telemetry -->
+      <section class="dash-card">
+        <div class="card-bar mono">// 01_system_telemetry</div>
+        <div class="card-body">
+          <ul class="telemetry-list mono">
+            <li><span class="lbl">LOCAL TIME:</span> <span id="sysTime">LOADING...</span></li>
+            <li><span class="lbl">SYSTEM LOCALE:</span> <span id="sysLocale">LOADING...</span></li>
+            <li><span class="lbl">SCREEN DENSITY:</span> <span id="sysScreen">LOADING...</span></li>
+            <li><span class="lbl">PLATFORM CORE:</span> <span id="sysPlatform">LOADING...</span></li>
+            <li><span class="lbl">NETWORK RTT:</span> <span id="sysRtt">LOADING...</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Card 2: Geo Telemetry -->
+      <section class="dash-card">
+        <div class="card-bar mono">// 02_geographical_node</div>
+        <div class="card-body">
+          <ul class="telemetry-list mono">
+            <li><span class="lbl">RESOLVED CITY:</span> <span id="geoCity">LOADING...</span></li>
+            <li><span class="lbl">REGION/COUNTRY:</span> <span id="geoCountry">LOADING...</span></li>
+            <li><span class="lbl">COORDINATE LAT:</span> <span id="geoLat">LOADING...</span></li>
+            <li><span class="lbl">COORDINATE LON:</span> <span id="geoLon">LOADING...</span></li>
+            <li><span class="lbl">ISP CARRIER:</span> <span id="geoIsp">LOADING...</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Card 3: Weather Telemetry -->
+      <section class="dash-card">
+        <div class="card-bar mono">// 03_meteorological_sensors</div>
+        <div class="card-body">
+          <ul class="telemetry-list mono">
+            <li><span class="lbl">TEMPERATURE:</span> <span id="weaTemp" class="highlight-cyan">LOADING...</span></li>
+            <li><span class="lbl">WIND SPEED:</span> <span id="weaWind">LOADING...</span></li>
+            <li><span class="lbl">WEATHER CODE:</span> <span id="weaCode">LOADING...</span></li>
+            <li><span class="lbl">ATMOSPHERE:</span> <span id="weaState">LOADING...</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Card 4: Crypto Ledger -->
+      <section class="dash-card">
+        <div class="card-bar mono">// 04_cryptographic_ledger</div>
+        <div class="card-body">
+          <ul class="telemetry-list mono">
+            <li><span class="lbl">BITCOIN (BTC):</span> <span id="coinBtc" class="highlight-green">LOADING...</span></li>
+            <li><span class="lbl">ETHEREUM (ETH):</span> <span id="coinEth">LOADING...</span></li>
+            <li><span class="lbl">SOLANA (SOL):</span> <span id="coinSol">LOADING...</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Card 5: Local Ollama Cores -->
+      <section class="dash-card">
+        <div class="card-bar mono">// 05_ollama_ai_engines</div>
+        <div class="card-body">
+          <ul class="telemetry-list mono" id="ollamaList">
+            <li>SCANNING FOR CORE ENGINES...</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- APIs Catalog Document -->
+    <footer class="dash-footer">
+      <h2 class="mono footer-title">// OPEN_API_INTEGRATIONS_CATALOG</h2>
+      <p class="footer-desc">This platform aggregates and streams real-time environmental metrics, system vitals, and cryptographic indexes. Other developer portals can call the following endpoints directly to consume similar feeds:</p>
+      
+      <div class="api-docs-grid">
+        <div class="api-doc-item mono">
+          <div class="api-tag get">GET</div>
+          <div class="api-url">https://ipapi.co/json/</div>
+          <div class="api-desc">Resolves geolocation and network carrier coordinates.</div>
+        </div>
+        <div class="api-doc-item mono">
+          <div class="api-tag get">GET</div>
+          <div class="api-url">https://api.open-meteo.com/v1/forecast</div>
+          <div class="api-desc">Retrieves global hourly weather telemetry.</div>
+        </div>
+        <div class="api-doc-item mono">
+          <div class="api-tag get">GET</div>
+          <div class="api-url">https://api.coingecko.com/api/v3/simple/price</div>
+          <div class="api-desc">Fetches live cryptocurrency price tickers.</div>
+        </div>
+        <div class="api-doc-item mono">
+          <div class="api-tag post">POST</div>
+          <div class="api-url">http://localhost:11434/api/generate</div>
+          <div class="api-desc">Queries local offline AI model core weights.</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="data_platform.js"></script>
+</body>
+</html>
