@@ -246,13 +246,177 @@ document.addEventListener('DOMContentLoaded', () => {
       obstacles.push(new THREE.Box3().setFromObject(mesh));
     }
 
-    // Spawn tactical walls across the grid
-    spawnColumn(-15, -15, 6, 8, 6);
-    spawnColumn(15, -25, 8, 12, 4);
-    spawnColumn(-25, 20, 4, 10, 8);
-    spawnColumn(20, 20, 6, 6, 6);
-    spawnColumn(0, -35, 12, 5, 2);
-    spawnColumn(-35, -5, 4, 14, 4);
+    // Custom helper generators
+    function createRoad(x, z, width, length, isVertical) {
+      const roadGeo = new THREE.PlaneGeometry(isVertical ? width : length, isVertical ? length : width);
+      const roadMat = new THREE.MeshStandardMaterial({ color: 0x151821, roughness: 0.95, metalness: 0.1 });
+      const road = new THREE.Mesh(roadGeo, roadMat);
+      road.rotation.x = -Math.PI / 2;
+      road.position.set(x, 0.012, z);
+      road.receiveShadow = true;
+      scene.add(road);
+
+      // White/Yellow dividing line markers
+      const lineGeo = new THREE.PlaneGeometry(0.18, 1.8);
+      const lineMat = new THREE.MeshBasicMaterial({ color: 0xffb000 });
+      if (isVertical) {
+        for (let d = -length / 2 + 3; d < length / 2; d += 6) {
+          const line = new THREE.Mesh(lineGeo, lineMat);
+          line.rotation.x = -Math.PI / 2;
+          line.position.set(x, 0.015, z + d);
+          scene.add(line);
+        }
+      } else {
+        for (let d = -length / 2 + 3; d < length / 2; d += 6) {
+          const line = new THREE.Mesh(lineGeo, lineMat);
+          line.rotation.x = -Math.PI / 2;
+          line.rotation.z = Math.PI / 2;
+          line.position.set(x + d, 0.015, z);
+          scene.add(line);
+        }
+      }
+    }
+
+    function createTree(x, z) {
+      const treeGroup = new THREE.Group();
+      
+      // Trunk
+      const trunkGeo = new THREE.CylinderGeometry(0.22, 0.35, 2.8, 5);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x47321e, roughness: 0.92 });
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 1.4;
+      trunk.castShadow = true;
+      trunk.receiveShadow = true;
+      treeGroup.add(trunk);
+
+      // Foliage layers (Cone stacked modules)
+      const leavesMat = new THREE.MeshStandardMaterial({ color: 0x1a4628, roughness: 0.85 });
+      
+      const bGeo = new THREE.ConeGeometry(1.6, 2.4, 5);
+      const bLeaves = new THREE.Mesh(bGeo, leavesMat);
+      bLeaves.position.y = 3.0;
+      bLeaves.castShadow = true;
+      treeGroup.add(bLeaves);
+
+      const mGeo = new THREE.ConeGeometry(1.15, 1.9, 5);
+      const mLeaves = new THREE.Mesh(mGeo, leavesMat);
+      mLeaves.position.y = 4.15;
+      mLeaves.castShadow = true;
+      treeGroup.add(mLeaves);
+
+      const tGeo = new THREE.ConeGeometry(0.75, 1.4, 5);
+      const tLeaves = new THREE.Mesh(tGeo, leavesMat);
+      tLeaves.position.y = 5.0;
+      tLeaves.castShadow = true;
+      treeGroup.add(tLeaves);
+
+      // Add tech wireframe borders
+      const wireMat = new THREE.MeshBasicMaterial({ color: 0x3fddc4, wireframe: true, transparent: true, opacity: 0.12 });
+      const w1 = new THREE.Mesh(bGeo, wireMat); w1.position.y = 3.0; treeGroup.add(w1);
+      const w2 = new THREE.Mesh(mGeo, wireMat); w2.position.y = 4.15; treeGroup.add(w2);
+      const w3 = new THREE.Mesh(tGeo, wireMat); w3.position.y = 5.0; treeGroup.add(w3);
+
+      treeGroup.position.set(x, 0, z);
+      scene.add(treeGroup);
+
+      // Only the trunk physically collides with the player
+      obstacles.push(new THREE.Box3().setFromObject(trunk));
+    }
+
+    function createHouse(x, z, rot) {
+      const houseGroup = new THREE.Group();
+      
+      // Walls
+      const wallsGeo = new THREE.BoxGeometry(12, 6.5, 9);
+      const wallsMat = new THREE.MeshStandardMaterial({ color: 0x1f2733, roughness: 0.72 });
+      const walls = new THREE.Mesh(wallsGeo, wallsMat);
+      walls.position.y = 3.25;
+      walls.castShadow = true;
+      walls.receiveShadow = true;
+      houseGroup.add(walls);
+
+      // Roof
+      const roofGeo = new THREE.ConeGeometry(10.2, 4.5, 4);
+      const roofMat = new THREE.MeshStandardMaterial({ color: 0x8a2b1a, roughness: 0.8 });
+      const roof = new THREE.Mesh(roofGeo, roofMat);
+      roof.position.y = 8.5;
+      roof.rotation.y = Math.PI / 4;
+      roof.castShadow = true;
+      houseGroup.add(roof);
+
+      // Door (front entrance)
+      const doorGeo = new THREE.BoxGeometry(2.2, 4.2, 0.2);
+      const doorMat = new THREE.MeshStandardMaterial({ color: 0x06080c });
+      const door = new THREE.Mesh(doorGeo, doorMat);
+      door.position.set(0, 2.1, 4.51);
+      houseGroup.add(door);
+
+      // Tech wireframes
+      const borderMat = new THREE.MeshBasicMaterial({ color: 0xffb000, wireframe: true, transparent: true, opacity: 0.1 });
+      const wWalls = new THREE.Mesh(wallsGeo, borderMat); wWalls.position.y = 3.25; houseGroup.add(wWalls);
+      const wRoof = new THREE.Mesh(roofGeo, borderMat); wRoof.position.y = 8.5; wRoof.rotation.y = Math.PI / 4; houseGroup.add(wRoof);
+
+      houseGroup.rotation.y = rot;
+      houseGroup.position.set(x, 0, z);
+      scene.add(houseGroup);
+
+      // Physical cover obstacle bounding box
+      obstacles.push(new THREE.Box3().setFromObject(walls));
+    }
+
+    function createSupplyCrate(x, z, rot) {
+      const crateGeo = new THREE.BoxGeometry(2.4, 2.4, 2.4);
+      const crateMat = new THREE.MeshStandardMaterial({ color: 0x6e522f, roughness: 0.95 });
+      const crate = new THREE.Mesh(crateGeo, crateMat);
+      
+      // Reinforcement bands
+      const bandGeo = new THREE.BoxGeometry(2.45, 0.35, 2.45);
+      const bandMat = new THREE.MeshStandardMaterial({ color: 0x1a212c, metalness: 0.75, roughness: 0.3 });
+      const band1 = new THREE.Mesh(bandGeo, bandMat); band1.position.y = 0.55; crate.add(band1);
+      const band2 = new THREE.Mesh(bandGeo, bandMat); band2.position.y = -0.55; crate.add(band2);
+
+      crate.position.set(x, 1.2, z);
+      crate.rotation.y = rot;
+      crate.castShadow = true;
+      crate.receiveShadow = true;
+      scene.add(crate);
+
+      obstacles.push(new THREE.Box3().setFromObject(crate));
+    }
+
+    // ─── SPAWN SCENERY MAP ELEMENTS ───
+
+    // 1. Asphalt Roads
+    createRoad(0, 0, 16, 200, true);  // North-South Road
+    createRoad(0, 0, 16, 200, false); // East-West Road
+
+    // 2. Tactical Houses
+    createHouse(-30, -35, Math.PI / 6);
+    createHouse(45, -45, -Math.PI / 4);
+    createHouse(-50, 40, Math.PI / 3);
+    createHouse(35, 45, 0);
+
+    // 3. Foliage Trees
+    const treePlacements = [
+      [-60, -60], [-65, -55], [-55, -65],
+      [60, -60], [65, -55], [55, -65],
+      [-60, 60], [-65, 55], [-55, 65],
+      [60, 60], [65, 55], [55, 65],
+      [-25, -75], [25, -75], [-75, -25], [75, -25],
+      [-75, 25], [75, 25], [-25, 75], [25, 75],
+      [40, 15], [-40, 15], [15, 60], [-15, -60]
+    ];
+    treePlacements.forEach(pos => createTree(pos[0], pos[1]));
+
+    // 4. Wooden Supply Crates
+    createSupplyCrate(-10, -12, Math.PI / 4);
+    createSupplyCrate(22, -18, Math.PI / 8);
+    createSupplyCrate(-18, 26, -Math.PI / 5);
+    createSupplyCrate(15, 22, Math.PI / 3);
+
+    // Spawn tactical walls across the grid (remaining from original)
+    spawnColumn(-15, 15, 6, 8, 6);
+    spawnColumn(15, 25, 8, 12, 4);
 
     // Outer boundary barriers (invisible plane box boundaries)
     const boundsGeo = new THREE.BoxGeometry(202, 30, 2);
@@ -276,55 +440,104 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── HOSTILE BOTS CONTROLLER ──────────────────────────────
   function spawnHostiles() {
-    const hostileGeo = new THREE.BoxGeometry(3, 3, 3);
-    const hostileMat = new THREE.MeshStandardMaterial({
-      color: 0xff5f56,
-      emissive: 0x99201a,
-      roughness: 0.3,
-      metalness: 0.7
-    });
-
-    const glowMat = new THREE.MeshBasicMaterial({ color: 0xff5f56, wireframe: true });
-
+    const scale = 1.0;
+    
     for (let i = 0; i < 3; i++) {
-      const bot = new THREE.Mesh(hostileGeo, hostileMat);
-      const wire = new THREE.Mesh(hostileGeo, glowMat);
-      bot.add(wire);
-      wire.scale.multiplyScalar(1.05);
+      const botGroup = new THREE.Group();
+      
+      const bodyMat = new THREE.MeshStandardMaterial({
+        color: 0xff5f56,
+        emissive: 0x66110e,
+        roughness: 0.4,
+        metalness: 0.5
+      });
+      const jointMat = new THREE.MeshStandardMaterial({ color: 0x1a212d });
+      
+      // Torso
+      const torsoGeo = new THREE.BoxGeometry(0.9, 1.3, 0.5);
+      const torso = new THREE.Mesh(torsoGeo, bodyMat);
+      torso.position.y = 1.45;
+      torso.castShadow = true;
+      torso.receiveShadow = true;
+      botGroup.add(torso);
 
-      bot.castShadow = true;
-      bot.receiveShadow = true;
+      // Head
+      const headGeo = new THREE.SphereGeometry(0.35, 8, 8);
+      const head = new THREE.Mesh(headGeo, bodyMat);
+      head.position.set(0, 2.3, 0);
+      head.castShadow = true;
+      botGroup.add(head);
+
+      // Glowing Visor
+      const visorGeo = new THREE.BoxGeometry(0.48, 0.15, 0.38);
+      const visorMat = new THREE.MeshBasicMaterial({ color: 0xffb000 });
+      const visor = new THREE.Mesh(visorGeo, visorMat);
+      visor.position.set(0, 2.3, 0.2);
+      botGroup.add(visor);
+
+      // Left Leg
+      const legGeo = new THREE.BoxGeometry(0.28, 0.9, 0.28);
+      const leftLeg = new THREE.Mesh(legGeo, jointMat);
+      leftLeg.position.set(-0.25, 0.45, 0);
+      leftLeg.castShadow = true;
+      botGroup.add(leftLeg);
+
+      // Right Leg
+      const rightLeg = new THREE.Mesh(legGeo, jointMat);
+      rightLeg.position.set(0.25, 0.45, 0);
+      rightLeg.castShadow = true;
+      botGroup.add(rightLeg);
+
+      // Left Arm
+      const armGeo = new THREE.BoxGeometry(0.22, 1.0, 0.22);
+      const leftArm = new THREE.Mesh(armGeo, bodyMat);
+      leftArm.position.set(-0.6, 1.35, 0);
+      leftArm.castShadow = true;
+      botGroup.add(leftArm);
+
+      // Right Arm
+      const rightArm = new THREE.Mesh(armGeo, bodyMat);
+      rightArm.position.set(0.6, 1.35, 0);
+      rightArm.castShadow = true;
+      botGroup.add(rightArm);
+
+      // Store references for running leg/arm swing animations
+      botGroup.leftLeg = leftLeg;
+      botGroup.rightLeg = rightLeg;
+      botGroup.leftArm = leftArm;
+      botGroup.rightArm = rightArm;
 
       // Random position
-      resetBotPosition(bot);
+      resetBotPosition(botGroup);
 
       // Custom attributes
-      bot.hp = 35;
-      bot.maxHp = 35;
-      bot.moveAngle = Math.random() * Math.PI * 2;
-      bot.speed = Math.random() * 4 + 4; // units/sec
+      botGroup.hp = 35;
+      botGroup.maxHp = 35;
+      botGroup.moveAngle = Math.random() * Math.PI * 2;
+      botGroup.speed = Math.random() * 5 + 6; // units/sec
+      botGroup.animTime = Math.random() * 100;
 
-      scene.add(bot);
-      hostiles.push(bot);
+      scene.add(botGroup);
+      hostiles.push(botGroup);
     }
   }
 
   function resetBotPosition(bot) {
     bot.position.set(
-      (Math.random() - 0.5) * 120,
-      1.5,
-      (Math.random() - 0.5) * 120
+      (Math.random() - 0.5) * 130,
+      0, // Position on the floor plane
+      (Math.random() - 0.5) * 130
     );
     bot.hp = bot.maxHp;
     
-    // Ensure we don't spawn inside a wall collision
+    // Ensure we don't spawn inside an obstacle collision
     const botBox = new THREE.Box3().setFromObject(bot);
     let collides = true;
     while (collides) {
       collides = false;
       obstacles.forEach(obs => {
         if (botBox.intersectsBox(obs)) {
-          bot.position.set((Math.random() - 0.5) * 120, 1.5, (Math.random() - 0.5) * 120);
+          bot.position.set((Math.random() - 0.5) * 130, 0, (Math.random() - 0.5) * 130);
           botBox.setFromObject(bot);
           collides = true;
         }
@@ -437,12 +650,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Laser endpoint
     const endPoint = new THREE.Vector3().copy(startPoint).addScaledVector(directionVec, 80);
 
-    // Check Raycast hits
-    const intersects = raycaster.intersectObjects(hostiles);
+    // Check Raycast hits recursively on bot groups
+    const intersects = raycaster.intersectObjects(hostiles, true);
 
     if (intersects.length > 0) {
       const hit = intersects[0];
-      const bot = hit.object;
+      
+      // Traverse up to find the root bot group in hostiles
+      let bot = hit.object;
+      while (bot.parent && !hostiles.includes(bot)) {
+        bot = bot.parent;
+      }
       
       // Update endpoint to hit location
       endPoint.copy(hit.point);
@@ -641,9 +859,17 @@ document.addEventListener('DOMContentLoaded', () => {
         bot.moveAngle = Math.random() * Math.PI * 2;
       }
 
-      // Gently rotate bot mesh for extra visual movement
-      bot.rotation.y += 1 * delta;
-      bot.rotation.x += 0.5 * delta;
+      // Align facing direction of bot
+      bot.rotation.y = Math.atan2(dx, dz);
+
+      // Running animations
+      bot.animTime += delta * bot.speed * 2.2;
+      const swingAngle = Math.sin(bot.animTime) * 0.6; // swing amplitude
+      
+      if (bot.leftLeg) bot.leftLeg.rotation.x = swingAngle;
+      if (bot.rightLeg) bot.rightLeg.rotation.x = -swingAngle;
+      if (bot.leftArm) bot.leftArm.rotation.x = -swingAngle * 0.8;
+      if (bot.rightArm) bot.rightArm.rotation.x = swingAngle * 0.8;
 
       // 4. Check bot collision with Player (Vitals impact)
       const playerPos = yawObject.position;
