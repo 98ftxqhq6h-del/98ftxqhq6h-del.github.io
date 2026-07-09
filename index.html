@@ -3,200 +3,304 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Anurag Kumar — AI Systems Developer. I build custom local AI chatbots, automation systems, and responsive modern interfaces.">
-  <meta name="theme-color" content="#00F5FF">
-  <title>ANURAG :: AI SYSTEMS DEVELOPER</title>
-  
-  <!-- Fonts -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>NEXUS SYSTEM GATEWAY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #07090d;
+      --neon-cyan: #00f0ff;
+      --neon-green: #39ff14;
+      --neon-pink: #ff0055;
+      --panel-bg: rgba(14, 18, 28, 0.7);
+      --border-color: rgba(0, 240, 255, 0.15);
+      --font-hud: 'Share Tech Mono', monospace;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      font-family: var(--font-body);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ambient animated neon grids */
+    .space-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .space-blur {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+      top: 10%;
+      left: 10%;
+      z-index: 2;
+      pointer-events: none;
+      filter: blur(50px);
+      animation: drift 15s infinite alternate ease-in-out;
+    }
+
+    .space-blur.pink {
+      background: radial-gradient(circle, rgba(255, 0, 85, 0.08) 0%, transparent 70%);
+      top: 60%;
+      left: 60%;
+      animation: drift 18s infinite alternate-reverse ease-in-out;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(80px, 50px) scale(1.2); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1080px;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    /* Gateway Logo and header */
+    .header {
+      margin-bottom: 50px;
+    }
+
+    .title {
+      font-family: var(--font-hud);
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px var(--neon-cyan);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-family: var(--font-hud);
+      font-size: 12px;
+      color: var(--neon-cyan);
+      letter-spacing: 8px;
+      opacity: 0.6;
+      text-transform: uppercase;
+    }
+
+    /* Portal Grid Layout */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .portal-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      padding: 36px 24px;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 380px;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-glow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--card-glow-alpha);
+    }
+
+    .portal-card.portfolio-card {
+      --card-glow: var(--neon-cyan);
+      --card-glow-alpha: rgba(0, 240, 255, 0.15);
+    }
+
+    .portal-card.game-card {
+      --card-glow: var(--neon-green);
+      --card-glow-alpha: rgba(57, 255, 20, 0.15);
+    }
+
+    .portal-card.video-card {
+      --card-glow: var(--neon-pink);
+      --card-glow-alpha: rgba(255, 0, 85, 0.15);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-family: var(--font-hud);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: #a0aec0;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-hud);
+      font-size: 13px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .portal-card:hover .btn {
+      border-color: var(--card-glow);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .portal-card:hover .btn:hover {
+      background: var(--card-glow);
+      color: #000;
+      box-shadow: 0 0 12px var(--card-glow);
+    }
+
+    /* Diagnostics Log Console */
+    .console-footer {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: left;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #a0aec0;
+    }
+
+    .console-header {
+      color: var(--neon-cyan);
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .blink {
+      animation: blink-anim 1s infinite step-start;
+    }
+
+    @keyframes blink-anim {
+      50% { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Ambient Space Backdrops -->
+  <div class="space-grid"></div>
+  <div class="space-blur"></div>
+  <div class="space-blur pink"></div>
 
-  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav class="navbar" id="navbar">
-    <a href="#" class="logo">ANURAG<span>.DEV</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="#about" class="active">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
-      <a href="store.html">Store</a>
-      <a href="anime_house.html">Ambiance</a>
-      <a href="game.html">3D Game</a>
-      <a href="nexus_zero.html">NEXUS // ZERO</a>
-      <a href="#contact">Contact</a>
+  <!-- Gateway Main Interface -->
+  <div class="container">
+    <div class="header">
+      <h1 class="title">NEXUS // PORTAL</h1>
+      <div class="subtitle">Select Gateway Protocol</div>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </nav>
 
-  <div class="wrap">
-
-    <!-- ═══════════════════ HERO / BOOT SECTION ═══════════════════ -->
-    <section class="hero" id="about" style="border-top:none; padding-top:100px;">
-      <div class="terminal reveal">
-        <div class="terminal-bar">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-          <span class="terminal-title mono">nexus@anurag: ~/init</span>
-        </div>
-        <div class="terminal-body mono" id="bootLog"></div>
-      </div>
-
-      <div class="hero-identity reveal reveal-delay-1">
-        <div class="eyebrow">AI Systems Developer</div>
-        <h1>Anurag<span class="cursor-blink">&nbsp;</span></h1>
-        <p class="hero-sub">I build <strong>custom AI chatbots and automation systems</strong> that run locally, cost nothing to operate, and go live in 48 hours. No SaaS fees. No vendor lock-in.</p>
-        <div class="cta-row">
-          <a href="#projects" class="btn btn-primary">VIEW_PROJECTS →</a>
-          <a href="#contact" class="btn btn-secondary">GET_A_QUOTE</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════ WHAT I BUILD ═══════════════════ -->
-    <section id="build" class="reveal">
-      <div class="section-label">// 01_capabilities</div>
-      <h2>What I build</h2>
-      <p class="lead">Focused, working systems — not vague "AI services." Each one ships as a real, running product.</p>
-      <div class="capability-grid">
-        <div class="cap-card">
-          <span class="cap-icon mono">[ CHAT ]</span>
-          <h3>Custom AI Chatbots</h3>
-          <p>Locally-run assistants (Ollama-powered) trained on your business, your tone, your data. No monthly API bills.</p>
-        </div>
-        <div class="cap-card">
-          <span class="cap-icon mono">[ AUTO ]</span>
-          <h3>Workflow Automation</h3>
-          <p>Python scripts that handle scraping, data cleanup, reports — the repetitive stuff, gone.</p>
-        </div>
-        <div class="cap-card">
-          <span class="cap-icon mono">[ UI/UX ]</span>
-          <h3>Interface Design</h3>
-          <p>Distinctive, sci-fi-grade interfaces for apps and dashboards — not template Bootstrap layouts.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════ DEMO ═══════════════════ -->
-    <section id="demo" class="reveal">
-      <div class="section-label">// 02_live_demo</div>
-      <h2>See it running</h2>
-      <p class="lead">Nexus AI — a locally-hosted assistant with real-time web search, news, and stock data built in.</p>
-      <div class="video-frame">
-        <div class="video-placeholder">
-          <span>▶ DEMO SCREEN</span>
-          <span>Deploying local models and testing capabilities.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════ PROJECTS ═══════════════════ -->
-    <section id="projects" class="reveal">
-      <div class="section-label">// 03_projects</div>
-      <h2>Selected work</h2>
-      <p class="lead">Live repositories. Real code, not mockups.</p>
-      <div class="project-row">
-        <a href="https://github.com/98ftxqhq6h-del/NexusAI" target="_blank" class="project-card">
-          <span class="project-num mono">01</span>
-          <div class="project-info">
-            <h3>Nexus AI</h3>
-            <p>Locally-run personal AI assistant — Python + Ollama + custom sci-fi Tkinter GUI. Web search, news, stock lookups, bilingual personality.</p>
-          </div>
-          <span class="project-arrow">→</span>
-        </a>
-        <a href="#" target="_blank" class="project-card">
-          <span class="project-num mono">02</span>
-          <div class="project-info">
-            <h3>CHRONOVERSE X16</h3>
-            <p>Sci-fi themed app, iOS + Web — animated starfields, hex clock, AI chat interface, custom tab navigation.</p>
-          </div>
-          <span class="project-arrow">→</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ═══════════════════ EXPERIENCE & EDUCATION (ORGANIZATIONS) ═══════════════════ -->
-    <section id="experience" class="reveal">
-      <div class="section-label">// 04_organizations</div>
-      <h2>Experience & Education</h2>
-      <p class="lead">Affiliations and educational milestones that shape my development engineering background.</p>
-      
-      <div class="experience-timeline">
-        <div class="timeline-item">
-          <div class="timeline-badge mono">EDU</div>
-          <div class="timeline-content">
-            <span class="timeline-date mono">2024 — Present</span>
-            <h3>Amity University</h3>
-            <span class="timeline-role">B.Tech in Computer Science & Engineering</span>
-            <p>Focusing on Artificial Intelligence, Machine Learning, and Cyber Laws. Developing local scraping pipelines and security-centric applications while maintaining a strong foundation in systems programming and discrete mathematics.</p>
-            <div class="timeline-tags">
-              <span class="tag">AI & ML</span>
-              <span class="tag">Systems Programming</span>
-              <span class="tag">Cyber Laws</span>
-            </div>
+    <div class="portal-grid">
+      <!-- Card 1: Portfolio -->
+      <div class="portal-card portfolio-card">
+        <div>
+          <div class="card-icon">📂</div>
+          <div class="card-title">PORTFOLIO & STORE</div>
+          <div class="card-desc">
+            Explore independent coding projects, educational timelines, developer capabilities, and the digital assets storefront catalog.
           </div>
         </div>
-
-        <div class="timeline-item">
-          <div class="timeline-badge mono">EXP</div>
-          <div class="timeline-content">
-            <span class="timeline-date mono">2025 — Present</span>
-            <h3>Nexus AI Lab</h3>
-            <span class="timeline-role">Lead Developer (Independent)</span>
-            <p>Architecting Nexus AI, an open-source local assistant framework integrating Ollama models, live web search capabilities, and local financial tracking dashboards (Share Market Brain).</p>
-            <div class="timeline-tags">
-              <span class="tag">Ollama</span>
-              <span class="tag">Python</span>
-              <span class="tag">LlamaIndex</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-badge mono">EXP</div>
-          <div class="timeline-content">
-            <span class="timeline-date mono">2023 — 2025</span>
-            <h3>Freelance Automation Systems</h3>
-            <span class="timeline-role">Automation & Systems Engineer</span>
-            <p>Designed and deployed customized Python automation scripts for data cleansing, web scraping, and automated reporting. Built responsive visual frontends utilizing advanced CSS and JavaScript.</p>
-            <div class="timeline-tags">
-              <span class="tag">Web Scraping</span>
-              <span class="tag">Custom UIs</span>
-              <span class="tag">Python</span>
-            </div>
-          </div>
+        <div class="card-actions">
+          <a href="portfolio/index.html" class="btn">LAUNCH_PORTFOLIO</a>
+          <a href="portfolio/store.html" class="btn">OPEN_TECH_STORE</a>
         </div>
       </div>
-    </section>
 
-    <!-- ═══════════════════ CONTACT ═══════════════════ -->
-    <section id="contact" class="reveal">
-      <div class="section-label">// 05_contact</div>
-      <div class="contact-panel">
-        <h2>Let's build something</h2>
-        <p class="lead">Chatbot, automation, or a custom interface — tell me what you need and I'll get back within a day.</p>
-        <div class="contact-links">
-          <a href="mailto:anurag798826@gmail.com" class="btn btn-primary">EMAIL_ME</a>
-          <a href="https://wa.me/919896586961" target="_blank" class="btn btn-secondary">WHATSAPP</a>
-          <a href="https://github.com/98ftxqhq6h-del" target="_blank" class="btn btn-secondary">GITHUB</a>
+      <!-- Card 2: Games -->
+      <div class="portal-card game-card">
+        <div>
+          <div class="card-icon">🎮</div>
+          <div class="card-title">COMBAT & HACKING</div>
+          <div class="card-desc">
+            Deploy cyberdeck subroutines (Ping, Overload, Hijack) in the zero-protocol simulator, or test tactical lasers in the first-person battle arena.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="game/nexus_zero.html" class="btn">RUN_NEXUS_ZERO</a>
+          <a href="game/game.html" class="btn">PLAY_TACTICAL_ARENA</a>
         </div>
       </div>
-    </section>
 
-    <!-- ═══════════════════ FOOTER ═══════════════════ -->
-    <footer class="mono">
-      <span class="status">● SYSTEM ONLINE</span> — Anurag / AI Systems Developer / Built with Nexus AI stack
-    </footer>
+      <!-- Card 3: Video Ambiance -->
+      <div class="portal-card video-card">
+        <div>
+          <div class="card-icon">🌸</div>
+          <div class="card-title">LOFI COZY STREAM</div>
+          <div class="card-desc">
+            Listen to procedural lofi audio streams and weather rain ASMR inside the animated developer cottage featuring dynamic day/night filters.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="video/anime_house.html" class="btn">ENTER_AMBIANCE_STREAM</a>
+        </div>
+      </div>
+    </div>
 
+    <!-- Diagnostic logs footer console -->
+    <div class="console-footer mono">
+      <div class="console-header">NEXUS SYSTEM DIAGNOSTICS // PROTOCOL RESET</div>
+      <div>&gt; ALL SECTORS SYNCHRONIZED [PORTFOLIO, GAME, VIDEO]</div>
+      <div>&gt; SECURE COGNITIVE NEURAL CONNECTIONS: SUCCESS</div>
+      <div>&gt; GATEWAYS OPERATIONAL. WAITING FOR INPUT<span class="blink">_</span></div>
+    </div>
   </div>
-
-  <!-- Scripts -->
-  <script src="script.js"></script>
 </body>
 </html>
