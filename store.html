@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Anurag Kumar — AI Store & Tech Vault. Buy local AI bots, automated scripts, and developer templates.">
+  <meta name="theme-color" content="#ffb000">
+  <title>ANURAG :: TECH VAULT STORE</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="store.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav class="navbar scrolled" id="navbar">
+    <a href="index.html" class="logo">ANURAG<span>.DEV</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#about">About</a>
+      <a href="index.html#build">Capabilities</a>
+      <a href="index.html#projects">Work</a>
+      <a href="#" class="active">Store</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="javascript:void(0)" class="cart-trigger" id="cartToggle" aria-label="Shopping Cart">🛒 <span class="cart-badge" id="cartBadge" style="display:none;">0</span></a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════ STORE CONTENT ═══════════════════ -->
+  <div class="wrap">
+    
+    <header class="store-header reveal">
+      <span class="section-label">// System Modules</span>
+      <h1>Tech <span>Vault</span> Store</h1>
+      <p>Premium locally-run bots, automated scraping engines, and developer setups.</p>
+    </header>
+
+    <!-- Filters Category Selector -->
+    <div class="filter-menu reveal reveal-delay-1" id="filterContainer">
+      <!-- Generated dynamically in store.js -->
+    </div>
+
+    <!-- Product Grid Catalog -->
+    <main class="products-container" id="catalogContainer">
+      <!-- Generated dynamically in store.js -->
+    </main>
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <footer class="mono">
+      <span class="status">● SYSTEM SECURED</span> — Encrypted Transactions via Secure Shell
+    </footer>
+
+  </div>
+
+  <!-- ═══════════════════ SHOPPING CART SIDEBAR ═══════════════════ -->
+  <aside class="cart-sidebar" id="cartSidebar" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <h2>Shopping Cart</h2>
+      <button class="close-cart-btn" id="closeCart" aria-label="Close Cart">✖</button>
+    </div>
+
+    <div class="cart-items-container" id="cartItemsContainer">
+      <!-- Generated dynamically in store.js -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <div class="cart-summary-line">
+        <span>Tax (8%)</span>
+        <span id="cartTax">$0.00</span>
+      </div>
+      <div class="cart-summary-line total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn-primary checkout-btn" id="checkoutBtn" disabled>
+        EXECUTE_CHECKOUT
+      </button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════ DETAILS MODAL OVERLAY ═══════════════════ -->
+  <div class="modal-overlay" id="detailsModal">
+    <div class="modal-box">
+      <!-- Generated dynamically in store.js -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════ CHECKOUT TERMINAL MODAL ═══════════════════ -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-box checkout-terminal-box">
+      <!-- Generated dynamically in store.js -->
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="store.js"></script>
+</body>
+</html>

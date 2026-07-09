@@ -1,0 +1,72 @@
+[
+  {
+    "id": "nexus-core",
+    "name": "Nexus Core AI Assistant",
+    "category": "ai-bots",
+    "price": 99.00,
+    "description": "Premium locally-run personal AI assistant. Packaged with Ollama-integration, context-aware memory, web search engines, and stock lookups.",
+    "specs": [
+      "No SaaS subscriptions",
+      "Full privacy, 100% local database",
+      "Python 3.10+ compatible",
+      "Configurable custom system prompts"
+    ],
+    "image": "🤖"
+  },
+  {
+    "id": "auto-scraper",
+    "name": "OmniScrape Automator",
+    "category": "scripts",
+    "price": 49.00,
+    "description": "Industrial-grade Python scraping tool. Bypasses standard rate-limiting, extracts structured data, and outputs clean CSV/JSON results automatically.",
+    "specs": [
+      "Asynchronous request pipeline",
+      "Automatic proxy rotation support",
+      "Pre-configured scheduler system",
+      "Exports to CSV, JSON, or databases"
+    ],
+    "image": "📈"
+  },
+  {
+    "id": "chronoverse-ui",
+    "name": "Chronoverse UI Kit",
+    "category": "templates",
+    "price": 39.00,
+    "description": "Futuristic, sci-fi themed user interface components for Next.js, React, and physical HTML. Packed with glowing neon components.",
+    "specs": [
+      "15+ premium layouts and panels",
+      "Fully responsive CSS rules included",
+      "Particle canvas particle systems",
+      "Figma design templates included"
+    ],
+    "image": "⚡"
+  },
+  {
+    "id": "llm-tuner",
+    "name": "Local LLM Fine-Tuner",
+    "category": "ai-bots",
+    "price": 149.00,
+    "description": "Complete codebase setup for fine-tuning small LLMs (like Llama-3-8B or Mistral-7B) on your custom company dataset.",
+    "specs": [
+      "Supports LoRA / QLoRA training",
+      "Dataset preprocessing scripts",
+      "Works on consumer GPUs (12GB+ VRAM)",
+      "Detailed markdown guide included"
+    ],
+    "image": "🧠"
+  },
+  {
+    "id": "consulting",
+    "name": "1-Hr System Consultation",
+    "category": "services",
+    "price": 79.00,
+    "description": "Direct 1-on-1 strategy call with Anurag. Let's design your local AI infrastructure, automate data steps, or optimize databases.",
+    "specs": [
+      "Conducted via Google Meet / Zoom",
+      "Full architecture review document",
+      "Action plan with source files",
+      "Session recording provided"
+    ],
+    "image": "📞"
+  }
+]
