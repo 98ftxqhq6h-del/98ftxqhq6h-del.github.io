@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' http://localhost:11434 ws: wss:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>NEURAL LINK // LOCAL AI CONSOLE</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="chatbot.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Ambient Space Grid -->
+  <div class="stars-grid"></div>
+
+  <!-- Main Chat Dashboard -->
+  <div class="chat-container">
+    <!-- Header / Diagnostic Status -->
+    <div class="chat-header">
+      <div class="header-left">
+        <a href="index.html" class="back-btn mono">← PORTFOLIO</a>
+        <h1 class="chat-title mono">NEURAL_LINK // AI_CONSOLE</h1>
+      </div>
+      <div class="status-panel mono">
+        OLLAMA: <span id="statusIndicator" class="status offline">OFFLINE</span>
+      </div>
+    </div>
+
+    <!-- Configuration Control Panel -->
+    <div class="config-panel">
+      <div class="config-row mono">
+        <label for="modelSelect">ACTIVE_CORE_LLM:</label>
+        <select id="modelSelect" class="mono">
+          <option value="">SCANNING FOR CORES...</option>
+        </select>
+      </div>
+      <div class="system-status-msg mono" id="systemMsg">
+        &gt; CONNECTING SECURE NEURAL LINK PROTOCOL...
+      </div>
+    </div>
+
+    <!-- Chat Logs Feed View -->
+    <div class="chat-feed" id="chatFeed">
+      <div class="message system-msg mono">
+        &gt; SYSTEM_READY // LOCAL OLLAMA INTERACTION ONLINE
+        <br>&gt; ENTER INSTRUCTION QUERY BELOW TO COMMUNICATE WITH LOCAL LLM WEIGHTS.
+      </div>
+    </div>
+
+    <!-- Chat Prompt Input Area -->
+    <div class="chat-input-area">
+      <textarea id="userInput" class="mono" placeholder="ENTER SYSTEM QUERY..." rows="1" disabled></textarea>
+      <button id="sendBtn" class="mono" disabled>EXECUTE_QUERY</button>
+    </div>
+  </div>
+
+  <script src="chatbot.js"></script>
+</body>
+</html>
