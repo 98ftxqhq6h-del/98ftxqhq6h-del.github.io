@@ -78,6 +78,20 @@ Building the Future... [██████████░] 91%
 
 <p align="center">
   <img src="https://streak-stats.demolab.com?user=98ftxqhq6h-del&theme=tokyonight" />
+
+---
+
+## 🏆 GitHub Achievements
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png" width="60px" alt="Pull Shark" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png" width="60px" alt="YOLO" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png" width="60px" alt="Quickdraw" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pair-extraordinaire-default.png" width="60px" alt="Pair Extraordinaire" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/galaxy-brain-default.png" width="60px" alt="Galaxy Brain" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/starstruck-default.png" width="60px" alt="Starstruck" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/heart-on-your-sleeve-default.png" width="60px" alt="Heart on Your Sleeve" />
+  <img src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/public-sponsor-default.png" width="60px" alt="Public Sponsor" />
 </p>
 
 ---
