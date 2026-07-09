@@ -580,6 +580,151 @@
   .reveal-delay-2 { transition-delay: 0.3s; }
 
   /* ============================================================
+     EXPERIENCE & EDUCATION (TIMELINE)
+     ============================================================ */
+  .experience-timeline {
+    position: relative;
+    padding-left: 32px;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+  }
+
+  /* Neon vertical timeline track indicator */
+  .experience-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--teal), var(--amber), transparent);
+    box-shadow: 0 0 10px rgba(63, 221, 196, 0.3);
+  }
+
+  .timeline-item {
+    position: relative;
+  }
+
+  .timeline-badge {
+    position: absolute;
+    left: -48px;
+    top: 4px;
+    width: 32px;
+    height: 20px;
+    background: var(--bg-void);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--teal);
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .timeline-item:hover .timeline-badge {
+    border-color: var(--teal);
+    color: var(--text-primary);
+    box-shadow: 0 0 8px rgba(63, 221, 196, 0.2);
+  }
+
+  /* Specific styling for edu badge vs exp badge if desired */
+  .timeline-item:nth-child(even) .timeline-badge {
+    color: var(--amber);
+  }
+  .timeline-item:nth-child(even):hover .timeline-badge {
+    border-color: var(--amber);
+    color: var(--text-primary);
+    box-shadow: 0 0 8px rgba(255, 176, 0, 0.2);
+  }
+
+  .timeline-content {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .timeline-content:hover {
+    border-color: rgba(63, 221, 196, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(63, 221, 196, 0.1);
+  }
+
+  .timeline-item:nth-child(even) .timeline-content:hover {
+    border-color: rgba(255, 176, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 176, 0, 0.1);
+  }
+
+  .timeline-date {
+    display: block;
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .timeline-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+
+  .timeline-role {
+    display: block;
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+  }
+  
+  .timeline-item:nth-child(even) .timeline-role {
+    color: var(--amber);
+  }
+
+  .timeline-content p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .timeline-tags .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .timeline-content:hover .timeline-tags .tag {
+    color: var(--text-primary);
+    border-color: rgba(63, 221, 196, 0.2);
+  }
+
+  .timeline-item:nth-child(even) .timeline-content:hover .timeline-tags .tag {
+    border-color: rgba(255, 176, 0, 0.2);
+  }
+
+  /* ============================================================
      RESPONSIVE
      ============================================================ */
   @media (max-width: 768px) {
@@ -624,6 +769,14 @@
       padding: 20px;
     }
     .project-arrow { display: none; }
+    
+    .experience-timeline {
+      padding-left: 20px;
+    }
+    
+    .timeline-badge {
+      display: none;
+    }
   }
 
   /* ============================================================
