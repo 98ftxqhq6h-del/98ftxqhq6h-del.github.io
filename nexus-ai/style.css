@@ -14,7 +14,8 @@
   --neon-pink:        #ff0055;
   --neon-green:       #39ff14;
   
-  --panel-bg:         rgba(8, 12, 20, 0.55);
+  --panel-bg:         rgba(8, 12, 20, 0.65);
+  --panel-glass:      rgba(14, 20, 32, 0.45);
   --border-glow:      rgba(0, 240, 255, 0.15);
   --border-pink:      rgba(255, 0, 85, 0.15);
   
@@ -63,7 +64,7 @@ body {
   box-shadow: 0 0 10px var(--neon-cyan);
 }
 
-/* ---------- System Overlays & Grids ---------- */
+/* ---------- System Overlays & Spotlight ---------- */
 .system-grid {
   position: fixed;
   inset: 0;
@@ -87,6 +88,18 @@ body {
   );
   pointer-events: none;
   z-index: 2;
+}
+
+.cursor-spotlight {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.035) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  mix-blend-mode: screen;
 }
 
 .ambient-glows {
@@ -198,7 +211,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 900px;
+  max-width: 950px;
   background: rgba(8, 12, 20, 0.65);
   backdrop-filter: blur(20px) saturate(1.8);
   -webkit-backdrop-filter: blur(20px) saturate(1.8);
@@ -216,7 +229,7 @@ body {
 .navbar.scrolled {
   top: 10px;
   width: 95%;
-  max-width: 980px;
+  max-width: 1000px;
   border-color: rgba(0, 240, 255, 0.3);
 }
 
@@ -236,12 +249,12 @@ body {
 
 .nav-links {
   display: flex;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav-links a {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-dim);
   text-decoration: none;
   letter-spacing: 1px;
@@ -292,7 +305,7 @@ body {
   transition: all 0.3s var(--ease-inout);
 }
 
-/* ---------- Hero Section ---------- */
+/* ---------- Hero Section & Layered Skyline ---------- */
 .hero {
   min-height: 100vh;
   position: relative;
@@ -304,11 +317,84 @@ body {
   z-index: 5;
 }
 
-/* Particle Matrix overlay inside hero */
 .hero-canvas-container {
   position: absolute;
   inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* layered vector cyberpunk city */
+.megacity-skyline {
+  position: absolute;
+  inset: 0;
   z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.skyline-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 250px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  transform: translateZ(0);
+}
+
+.skyline-layer--back {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 200' fill='%230b0e17'%3E%3Cpath d='M0 200h1000v-50l-20-10v-30h-10v40l-30-20v-50h-20l-10 10v60h-50v-70l-30-10v80h-40l-10-30v-40h-20v70h-60v-90l-30-20v110h-30l-10-10v-50h-20v60h-70v-80l-30-10v90h-50v-70l-30-20v90h-40l-10-30v-40h-20v70h-60v-90z'/%3E%3C/svg%3E");
+  opacity: 0.25;
+  animation: scrollSkyline 90s linear infinite;
+  height: 300px;
+}
+
+.skyline-layer--front {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 200' fill='%23121826'%3E%3Cpath d='M0 200h1000v-30l-10-10v-60h-20v70h-40v-40l-20-10v50h-50v-80l-20-10v90h-40v-50l-20-20v70h-50v-90l-20-10v100h-30l-10-10v-50h-20v60h-70v-80l-30-10v90h-50v-70l-30-20v90h-40l-10-30v-40h-20v70h-60v-90z'/%3E%3C/svg%3E");
+  opacity: 0.55;
+  animation: scrollSkyline 45s linear infinite;
+  height: 220px;
+}
+
+.skyline-core-glow {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+  opacity: 0.18;
+  filter: blur(10px);
+}
+
+.flying-vehicles {
+  position: absolute;
+  inset: 0;
+}
+
+.flying-vehicle {
+  position: absolute;
+  width: 4px;
+  height: 2px;
+  background-color: var(--neon-cyan);
+  box-shadow: 0 0 6px var(--neon-cyan);
+  border-radius: 50%;
+  animation: flyHorizontal 15s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes scrollSkyline {
+  to { transform: translate3D(-50%, 0, 0); }
+}
+
+@keyframes flyHorizontal {
+  0% { left: -10px; top: var(--y); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { left: 100%; top: var(--y); opacity: 0; }
 }
 
 .hero-content {
@@ -328,10 +414,53 @@ body {
   font-weight: 900;
   letter-spacing: 8px;
   line-height: 1.05;
-  background: linear-gradient(135deg, #fff 30%, var(--neon-cyan), var(--neon-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+  color: #fff;
+  text-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+}
+
+/* Glitch Title Text */
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.glitch-text::before {
+  color: var(--neon-pink);
+  left: -2px;
+  animation: glitch-anim-1 3s infinite linear alternate-reverse;
+  clip-path: inset(0 0 60% 0);
+}
+
+.glitch-text::after {
+  color: var(--neon-cyan);
+  left: 2px;
+  animation: glitch-anim-2 2s infinite linear alternate;
+  clip-path: inset(60% 0 0 0);
+}
+
+@keyframes glitch-anim-1 {
+  0%, 95% { transform: translate(0); }
+  96% { transform: translate(-2px, 1px); }
+  97% { transform: translate(2px, -1px); }
+  98% { transform: translate(-1px, 2px); }
+  99% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-anim-2 {
+  0%, 95% { transform: translate(0); }
+  96% { transform: translate(2px, -1px); }
+  97% { transform: translate(-2px, 1px); }
+  98% { transform: translate(1px, -2px); }
+  99% { transform: translate(-2px, 2px); }
+  100% { transform: translate(0); }
 }
 
 .hero-subtitle {
@@ -403,7 +532,6 @@ body {
   background: transparent;
   color: var(--neon-cyan);
   box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
-  transform: translateY(-2px);
 }
 
 .btn--outline {
@@ -416,7 +544,15 @@ body {
   border-color: var(--neon-pink);
   color: var(--neon-pink);
   box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
-  transform: translateY(-2px);
+}
+
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ---------- Shared Sections ---------- */
@@ -455,7 +591,7 @@ section {
   text-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
 }
 
-/* ---------- AI Core (Neural network brain) ---------- */
+/* ---------- AI Core (Three.js 3D Brain) ---------- */
 .core-brain-box {
   width: 100%;
   height: 500px;
@@ -469,13 +605,6 @@ section {
   overflow: hidden;
 }
 
-#brainCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .brain-log-hud {
   position: absolute;
   bottom: 20px;
@@ -484,13 +613,14 @@ section {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--neon-cyan);
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   border: 1px solid var(--border-glow);
   padding: 12px 20px;
   border-radius: var(--radius-sm);
   display: flex;
   justify-content: space-between;
   pointer-events: none;
+  z-index: 10;
 }
 
 /* ---------- Tech Cards ---------- */
@@ -673,6 +803,7 @@ section {
   transition: all 0.3s var(--ease-inout);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .project-hologram-card:hover {
@@ -706,6 +837,10 @@ section {
   margin-bottom: 24px;
 }
 
+.project-hologram-card:hover h3 {
+  color: var(--neon-cyan);
+}
+
 .project-stats-mini {
   display: flex;
   justify-content: space-between;
@@ -716,7 +851,7 @@ section {
   padding-top: 14px;
 }
 
-/* ---------- AI Chat Assistant ---------- */
+/* ---------- AI Chat Assistant & Microphone ---------- */
 .assistant-box {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -779,6 +914,7 @@ section {
   background: var(--neon-cyan);
   border-radius: 4px;
   animation: wavePulse 1.2s infinite ease-in-out;
+  animation-play-state: paused;
 }
 
 .assistant-chat-panel {
@@ -812,12 +948,13 @@ section {
 }
 
 .chat-bubble.bot {
-  background: var(--bg-panel-raised);
+  background: var(--panel-glass);
   border: 1px solid var(--border-glow);
   color: #fff;
   align-self: flex-start;
   border-bottom-left-radius: 0;
   font-family: var(--font-mono);
+  letter-spacing: 0.5px;
 }
 
 .chat-input-bar {
@@ -842,6 +979,14 @@ section {
 
 .chat-input:focus {
   border-color: var(--neon-cyan);
+}
+
+/* Microphone active state */
+#voiceToggle.active {
+  background-color: var(--neon-pink);
+  color: #000;
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 15px var(--neon-pink);
 }
 
 /* Animations for Chat */
@@ -889,7 +1034,7 @@ section {
   letter-spacing: 1.5px;
 }
 
-/* ---------- Global Network Map ---------- */
+/* ---------- Global Network Map (Three.js 3D Globe) ---------- */
 .network-box {
   width: 100%;
   height: 480px;
@@ -900,11 +1045,6 @@ section {
   -webkit-backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
-}
-
-#mapCanvas {
-  width: 100%;
-  height: 100%;
 }
 
 .network-telemetry-hud {
@@ -920,12 +1060,13 @@ section {
   color: var(--neon-cyan);
   line-height: 1.8;
   pointer-events: none;
+  z-index: 10;
 }
 
 /* ---------- Interactive Team Profiles ---------- */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
 
@@ -939,12 +1080,12 @@ section {
   -webkit-backdrop-filter: blur(12px);
   transition: all 0.3s var(--ease-inout);
   position: relative;
+  cursor: pointer;
 }
 
 .team-card:hover {
   border-color: var(--neon-pink);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(255, 0, 85, 0.08);
+  box-shadow: 0 10px 30px rgba(255, 0, 85, 0.12);
 }
 
 .team-avatar {
@@ -959,6 +1100,25 @@ section {
   justify-content: center;
   font-size: 2.2rem;
   box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.team-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(255, 0, 85, 0.25) 100%);
+  pointer-events: none;
+}
+
+.team-card:hover .team-avatar {
+  animation: avatarGlitch 0.4s steps(2) infinite;
+}
+
+@keyframes avatarGlitch {
+  0%, 100% { transform: translate(0); }
+  50% { transform: translate(-3px, 2px) skewX(5deg); filter: hue-rotate(90deg); }
 }
 
 .team-card h3 {
