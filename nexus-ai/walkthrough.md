@@ -1,36 +1,38 @@
-# NEXUS AI OS Interface Walkthrough
+# NEXUS AI OS Interface Walkthrough (Advanced Suite)
 
-I have designed and implemented the award-winning **NEXUS AI Operating System Website** inside your repository. It is fully integrated with your root Gateway Lobby portal.
+I have updated the **NEXUS AI Operating System Website** with all high-fidelity advanced features requested. It is fully integrated with your root Gateway Lobby portal.
 
 ---
 
-## 💎 What Was Created
+## 💎 Advanced Features Implemented
 
-### 1. Cyberpunk AI Interface Structure ([index.html](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/index.html))
-* **Loading Boot Screen**: Plays a sequential system scan checking memory blocks, local Ollama connections, and quantum channel latency.
-* **Hero Panel Centerpiece**: Container for the particle face hologram, styled title, subtitle, and primary actions.
-* **Neural Network Brain Core**: Interactive nodes canvas tracking spatial cursor positions and displaying nodes details (node ID, latency, process tag) on a HUD.
-* **Technology Cards**: Displays core systems (AI, ML, Robotics, Computer Vision, etc.) with custom hover expansions and glowing borders.
-* **Evolution Timeline**: Shows research evolution from 1956 to ASI/NEXUS AI on a glowing multi-node vertical line.
-* **Floating AI Chat Assistant**: Interactive window with simulated thinking logs, chat history, auto-scrolling message streams, and a dynamic audio sound waveform.
-* **Stats Counters & Global Nodes**: Real-time counter metrics and a vector-drawn world map showing animated connection vectors between cities.
-* **Contact & Form Fields**: Futuristic circuits overlay behind a glassmorphic message submission panel.
+### 1. Three.js rotating 3D Neural Brain Core
+* The **AI Core** canvas is now powered by **Three.js** inside [index.html](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/index.html#L70-L82).
+* Renders a revolving 3D particle network (140 nodes) mapped inside custom spherical coordinates.
+* Generates connecting lines programmatically and pivots rotation based on mouse movement coordinates.
+* Randomly displays node telemetry status (ID, latency, sync logs) in a cockpit-style log panel.
 
-### 2. Holographic CSS System ([style.css](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/style.css))
-* Set up CSS custom properties (`--neon-cyan`, `--neon-pink`, `--neon-purple`, `--neon-green`, `--neon-blue`).
-* Applied ambient overlays: moving linear perspective grids and scanline filtering lines.
-* Implemented glassmorphism borders (`backdrop-filter`) and drop-shadow keyframes.
-* Handles responsive layouts (adjusting sidebar timelines and mobile nav menus).
+### 2. Rotating 3D World Globe
+* The **Global Network** map is now rendered as a **Three.js rotating 3D globe** shell in the [Network Section](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/index.html#L254-L266).
+* Computes green-glowing node coordinates with connecting arc segments representing active global data traffic.
 
-### 3. Particles & Interactivity Engine ([script.js](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/script.js))
-* **Hero Face Hologram**: Custom 2D canvas equations drawing, orbiting, pulsing, and connecting 180 particles.
-* **Neural Core Network**: Interactive proximity math showing connected webs and hovering effects.
-* **Global Feeds Map**: Coordinates projections between major servers (NEOM, Tokyo, Silicon Valley) with moving data pulse packets.
-* **Interactive Chatbot**: Formulates responses with "thinking" logs and animated waveform speeds.
-* **Stats Animator**: Increments values smoothly using a cubic ease-out curve when scrolled into view.
+### 3. GSAP Animation Engine & Magnetic Buttons
+* Imported **GSAP** and **ScrollTrigger** from CDN in [index.html](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/index.html#L318-L326).
+* Configured a custom GSAP mouse handler in [script.js](file:///Users/anuragkuamr/98ftxqhq6h-del%20/nexus-ai/script.js) that magnetizes active elements (buttons, project cards) toward the cursor when hovered (`.magnetic-btn`).
+* Handles staggered slide-up scroll reveals on section titles, timeline blocks, and cards.
 
-### 4. Root Portal Integration ([index.html](file:///Users/anuragkuamr/98ftxqhq6h-del%20/index.html))
-* Added a 4th Card to the main gateway lobby grid: **NEXUS AI SYSTEM**. Links to `nexus-ai/index.html` with a glowing cyan hover state.
+### 4. Interactive Voice Assistant (Web Speech API)
+* **Speech Synthesis**: The assistant speaks responses aloud using the browser's native text-to-speech engine. The audio voice is tuned to a deep, futuristic pitch.
+* **Speech Recognition**: Clicking the microphone (`🎤`) in the input bar prompts the browser for voice authorization and records user voice commands to automatically trigger conversational answers.
+* Waveforms animate concurrently with speech output.
+
+### 5. Cyberpunk Backdrop Silhouettes & Glitches
+* **Megacity Layered Skyline**: Added back/front scrolling parallax silhouette skylines containing glowing vector towers and programmatically animated flying vehicles (`.flying-vehicle`).
+* **Volumetric Spotlight Overlay**: Features a circular glowing backdrop overlay that tracks the cursor coordinates, revealing hidden scanlines.
+* **Holographic Glitch Text**: The main hero title features split-chromatic shifts using CSS clip-paths.
+
+### 6. Futuristic Team profiles
+* Added the **Team Section** right before the Contact section, displaying profile panels for the AI engineers (*Dr. Lyra Vance*, *Kaelen Void*, *Aria Synthesis*) complete with hover glitch states.
 
 ---
 
