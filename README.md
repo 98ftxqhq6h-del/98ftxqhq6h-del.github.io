@@ -98,6 +98,6 @@ Building the Future... [██████████░] 91%
 
 ## 🌐 Connect With Me
 
-- 📧 Email: [anurag798826@gmail.com](mailto:anurag798826@gmail.com)
+- 📧 Email: [anurag798826@gmail.com](anurag798826@gmail.com)
 - 💬 WhatsApp: [+91 98965 86961](https://wa.me/919896586961)
 - 💻 GitHub: [@98ftxqhq6h-del](https://github.com/98ftxqhq6h-del)
