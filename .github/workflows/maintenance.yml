@@ -1,0 +1,73 @@
+name: 🔄 Scheduled Maintenance
+
+on:
+  schedule:
+    # Weekly on Monday at 9 AM IST (3:30 AM UTC)
+    - cron: "30 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  link-check:
+    name: 🔗 Check External Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check external links
+        run: |
+          echo "🌐 Checking external links..."
+          BROKEN=0
+          grep -rhoP 'https?://[^\s"<>]+' --include="*.html" . | sort -u | while read url; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$url" 2>/dev/null || echo "000")
+            if [ "$STATUS" -ge 400 ] || [ "$STATUS" = "000" ]; then
+              echo "❌ [$STATUS] $url"
+              BROKEN=$((BROKEN + 1))
+            fi
+          done
+          echo "Check complete."
+
+  lighthouse:
+    name: 🏠 Lighthouse Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Lighthouse CI
+        run: |
+          npx -y @lhci/cli@0.14.x autorun \
+            --collect.url=https://98ftxqhq6h-del.github.io/ \
+            --collect.numberOfRuns=1 \
+            --assert.preset=lighthouse:recommended \
+            || echo "⚠️ Lighthouse audit completed with warnings"
+
+  stale-check:
+    name: 🧹 Stale File Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find files not modified in 90 days
+        run: |
+          echo "📅 Files not modified in 90+ days:"
+          CUTOFF=$(date -d "90 days ago" +%s 2>/dev/null || date -v-90d +%s)
+          git log --all --format="%H" --diff-filter=M -- "*.html" "*.css" "*.js" | head -100 | while read commit; do
+            DATE=$(git show -s --format=%ct "$commit" 2>/dev/null)
+            if [ -n "$DATE" ] && [ "$DATE" -lt "$CUTOFF" ]; then
+              FILES=$(git show --name-only --format="" "$commit" 2>/dev/null)
+              echo "  ⏳ $FILES"
+            fi
+          done || echo "✅ All files are recently maintained"

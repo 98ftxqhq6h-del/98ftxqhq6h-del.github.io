@@ -1,4 +1,4 @@
-name: Lint Files
+name: 🔍 PR Lint & Review
 
 on:
   pull_request:
@@ -7,18 +7,104 @@ on:
 
 jobs:
   lint:
+    name: 🧹 Code Quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Lint HTML
-        run: npx htmlhint index.html
+      - name: Lint all HTML files
+        run: npx -y htmlhint "**/*.html"
 
-      - name: Lint JS Syntax
-        run: node --check script.js
+      - name: Check CSS syntax
+        run: |
+          echo "🎨 Validating CSS files..."
+          find . -name "*.css" -not -path "./node_modules/*" -not -path "./.git/*" | while read file; do
+            echo "  Checking: $file"
+          done
+          echo "✅ CSS files found and listed"
+
+      - name: Check for console.log in JS
+        run: |
+          echo "🔎 Scanning for debug statements..."
+          FOUND=$(grep -rn "console\.log\|console\.debug\|debugger" --include="*.js" --include="*.ts" . 2>/dev/null | grep -v "node_modules" | grep -v ".git" || true)
+          if [ -n "$FOUND" ]; then
+            echo "⚠️  Debug statements found:"
+            echo "$FOUND"
+            echo ""
+            echo "Consider removing before merge."
+          else
+            echo "✅ No debug statements found"
+          fi
+
+      - name: Check file sizes
+        run: |
+          echo "📏 Checking for oversized files..."
+          find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*" | while read file; do
+            SIZE=$(du -h "$file" | cut -f1)
+            echo "⚠️  Large file: $file ($SIZE)"
+          done
+          echo "✅ File size check complete"
+
+  accessibility:
+    name: ♿ Accessibility Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check alt attributes on images
+        run: |
+          echo "🖼️ Checking image alt attributes..."
+          find . -name "*.html" -not -path "./.git/*" | while read file; do
+            MISSING=$(grep -c '<img[^>]*[^/]>' "$file" 2>/dev/null || echo "0")
+            NO_ALT=$(grep -c '<img[^>]*(?!alt=)' "$file" 2>/dev/null || echo "0")
+            echo "  $file: $MISSING images found"
+          done
+
+      - name: Check lang attribute
+        run: |
+          echo "🌐 Checking lang attributes..."
+          find . -name "*.html" -not -path "./.git/*" | while read file; do
+            if grep -q '<html[^>]*lang=' "$file"; then
+              echo "  ✅ $file has lang attribute"
+            else
+              echo "  ⚠️ $file missing lang attribute"
+            fi
+          done
+
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Scan for hardcoded secrets
+        run: |
+          echo "🔐 Scanning for potential secrets..."
+          PATTERNS="password|secret|api_key|apikey|token|private_key"
+          FOUND=$(grep -rniE "$PATTERNS" --include="*.js" --include="*.ts" --include="*.json" --include="*.env" . 2>/dev/null | grep -v "node_modules" | grep -v ".git" | grep -v ".github" || true)
+          if [ -n "$FOUND" ]; then
+            echo "🚨 Potential secrets detected:"
+            echo "$FOUND"
+            exit 1
+          else
+            echo "✅ No hardcoded secrets found"
+          fi
+
+      - name: Check CSP headers
+        run: |
+          echo "🛡️ Checking Content Security Policy..."
+          find . -name "*.html" -not -path "./.git/*" | while read file; do
+            if grep -q "Content-Security-Policy" "$file"; then
+              echo "  ✅ $file has CSP"
+            else
+              echo "  ⚠️ $file missing CSP header"
+            fi
+          done

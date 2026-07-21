@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: 🚀 Deploy to GitHub Pages
 
 on:
   push:
@@ -15,7 +15,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ───────── Lint & Validate ─────────
+  lint:
+    name: 🔍 Lint & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lint HTML files
+        run: |
+          npx -y htmlhint "**/*.html" --config .htmlhintrc 2>/dev/null || \
+          npx -y htmlhint "**/*.html"
+
+      - name: Check for broken internal links
+        run: |
+          echo "🔗 Checking internal link targets..."
+          find . -name "*.html" -not -path "./.git/*" -not -path "./node_modules/*" | while read file; do
+            grep -oP 'href="(?!https?://|mailto:|#|javascript:)([^"]+)"' "$file" | \
+            sed 's/href="//;s/"//' | while read link; do
+              target="$(dirname "$file")/$link"
+              if [ ! -f "$target" ] && [ ! -d "$target" ]; then
+                echo "⚠️  Broken link in $file → $link"
+              fi
+            done
+          done
+
+  # ───────── Deploy ─────────
   deploy:
+    name: 📦 Deploy
+    needs: lint
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -23,12 +57,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # ───────── Post-Deploy Health Check ─────────
+  health-check:
+    name: ✅ Health Check
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for deployment
+        run: sleep 30
+
+      - name: Check site is live
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://98ftxqhq6h-del.github.io/)
+          echo "HTTP Status: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "❌ Site returned $STATUS"
+            exit 1
+          fi
+          echo "✅ Site is live!"
