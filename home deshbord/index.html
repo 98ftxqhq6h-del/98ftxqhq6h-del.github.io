@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS JARVIS OS — Command Center</title>
+    <!-- Google Fonts for futuristic, data, and body typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- BACKGROUND PARALLAX LAYER -->
+    <div class="bg-parallax" id="bg-parallax">
+        <div class="grid-layer"></div>
+        <canvas id="particles-canvas"></canvas>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTAINER -->
+    <div class="dashboard-grid">
+        
+        <!-- 1. TOP BAR -->
+        <header class="top-bar">
+            <div class="top-left">
+                <!-- Glowing geometric hexagon N mark logo -->
+                <div class="logo-container">
+                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" class="hex-outline"/>
+                        <path d="M30 70 V30 L70 70 V30" class="n-circuit" />
+                        <circle cx="30" cy="30" r="4" class="node" />
+                        <circle cx="70" cy="70" r="4" class="node" />
+                        <circle cx="50" cy="50" r="3" class="center-node" />
+                    </svg>
+                </div>
+                <div class="wordmark">
+                    <h1>NEXUS JARVIS OS</h1>
+                    <span class="tagline">Your Local AI Command Center</span>
+                </div>
+            </div>
+            
+            <div class="top-center">
+                <div class="system-clock">
+                    <span id="clock-time">00:00:00</span>
+                    <span id="clock-date">MON, JUL 13, 2026</span>
+                </div>
+            </div>
+            
+            <div class="top-right">
+                <div class="status-indicator" id="status-mic" title="Voice Input Status">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                        <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+                        <line x1="12" x2="12" y1="19" y2="22"/>
+                    </svg>
+                    <span class="status-text">MIC OFF</span>
+                </div>
+                <div class="status-indicator" id="status-network" title="Network Connection Status">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                        <line x1="12" x2="12.01" y1="20" y2="20" stroke-linecap="round"/>
+                    </svg>
+                    <span class="status-text">ONLINE</span>
+                </div>
+                <div class="status-indicator active" id="status-ollama" title="Active LLM Backend Status">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                        <path d="M12 6v12M8 10h8M8 14h8"/>
+                    </svg>
+                    <span class="status-text">OLLAMA: QWEN2.5-CODER</span>
+                </div>
+                <div class="status-indicator" id="status-health" title="System Health Status">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <span class="status-text">SYS: 92%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 3. LEFT SIDEBAR (Icon-based, collapsible) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-toggle" id="sidebar-toggle" title="Toggle Navigation Menu">
+                <svg class="chevron-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="11 17 6 12 11 7"/>
+                    <polyline points="18 17 13 12 18 7"/>
+                </svg>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-section="home">
+                        <a href="#" title="Dashboard Home">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">Home</span>
+                        </a>
+                    </li>
+                    <li data-section="market">
+                        <a href="#" title="NexusAI Market Pulse">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" x2="18" y1="20" y2="10"/>
+                                    <line x1="12" x2="12" y1="20" y2="4"/>
+                                    <line x1="6" x2="6" y1="20" y2="14"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">Market Pulse</span>
+                        </a>
+                    </li>
+                    <li data-section="news">
+                        <a href="#" title="Live News Feed">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <path d="M16 8h2M16 12h2M8 8h5M8 12h5M8 16h10"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">News Feed</span>
+                        </a>
+                    </li>
+                    <li data-section="chat">
+                        <a href="#" title="Chrono AI Companion Chat">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">Chrono Chat</span>
+                        </a>
+                    </li>
+                    <li data-section="chrono">
+                        <a href="#" title="Chronoverse Ecosystem">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">Chronoverse</span>
+                        </a>
+                    </li>
+                    <li data-section="settings">
+                        <a href="#" title="System Configuration">
+                            <span class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                </svg>
+                            </span>
+                            <span class="nav-label">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="ver">X16v2.6</span>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTAINER FOR CORE & WIDGETS -->
+        <main class="main-content">
+            
+            <!-- 2. CENTER — AI CORE -->
+            <section class="ai-core-container">
+                <div class="console-hud-corners"></div>
+                <div class="core-header">
+                    <span class="hud-label">CO-PILOT INTEL CORE</span>
+                    <span class="hud-status" id="core-state-indicator">STATUS: IDLE</span>
+                </div>
+                
+                <div class="core-visual-wrapper">
+                    <!-- Jarvis Orb concentric ring layout -->
+                    <div class="jarvis-core-wrapper" id="jarvis-core">
+                        <div class="jarvis-glow-ring ring-outer"></div>
+                        <div class="jarvis-glow-ring ring-middle"></div>
+                        <div class="jarvis-glow-ring ring-inner"></div>
+                        <!-- Hexagonal decorative ring -->
+                        <div class="hex-dec-ring">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="100,10 178,55 178,145 100,190 22,145 22,55" class="core-hex-poly"/>
+                            </svg>
+                        </div>
+                        <!-- Central circular element with reactive canvas -->
+                        <div class="core-center-orb">
+                            <canvas id="core-waves"></canvas>
+                            <div class="orb-solid-center"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- APP LAUNCHERS AND QUICK COMMANDS -->
+                <div class="launcher-section">
+                    <div class="launcher-grid">
+                        <button class="launcher-btn" id="launch-vscode" title="Launch VS Code Workspace">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/>
+                            </svg>
+                            <span>VS Code</span>
+                        </button>
+                        <button class="launcher-btn" id="launch-github" title="Open GitHub Repository">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                            <span>GitHub</span>
+                        </button>
+                        <button class="launcher-btn" id="launch-ollama" title="Open Ollama Local Status">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2a7 7 0 1 0 10 10"/>
+                                <path d="M12 6a4 4 0 1 0 5 5"/>
+                            </svg>
+                            <span>Ollama</span>
+                        </button>
+                    </div>
+                    <div class="extra-launch-list">
+                        <button class="extra-launch-item" id="launch-market-brain" title="Open Market Brain Module">
+                            <span class="emoji-icon">📈</span>
+                            <span class="label-text">Market Brain</span>
+                        </button>
+                        <button class="extra-launch-item" id="launch-telegram" title="Toggle Telegram Notifications">
+                            <span class="emoji-icon">📬</span>
+                            <span class="label-text">Telegram Notifications</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="core-footer">
+                    <div class="speech-bubble" id="copilot-speech">
+                        "Welcome back, Anurag. Systems are normalized. Conda nexus-env is operational. Ollama model qwen2.5-coder is running. What commands do you have for me today?"
+                    </div>
+                    <div class="core-sub-status" id="core-status-text">
+                        Idle — awaiting prompt or vocal trigger
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. RIGHT WIDGET COLUMN (stacked cards) -->
+            <section class="widget-column">
+                
+                <!-- WIDGET 1: Market Snapshot -->
+                <div class="widget-card" id="widget-market">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" x2="18" y1="20" y2="10"/>
+                                <line x1="12" x2="12" y1="20" y2="4"/>
+                                <line x1="6" x2="6" y1="20" y2="14"/>
+                            </svg>
+                            <h3>MARKET PULSE (NexusAI)</h3>
+                        </div>
+                        <span class="status-dot pulses green"></span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Sentiment Gauge -->
+                        <div class="sentiment-container">
+                            <span class="gauge-label">Sentiment Sentiment Index</span>
+                            <div class="gauge-wrapper">
+                                <svg class="gauge-svg" viewBox="0 0 100 50">
+                                    <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-bg" />
+                                    <path d="M 10 50 A 40 40 0 0 1 90 50" class="gauge-filled" id="sentiment-fill" stroke-dasharray="126" stroke-dashoffset="38"/>
+                                    <line x1="50" y1="50" x2="50" y2="15" class="gauge-needle" id="sentiment-needle" />
+                                    <circle cx="50" cy="50" r="5" class="gauge-center" />
+                                </svg>
+                                <div class="gauge-value" id="sentiment-val">70% Bullish</div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Stock Ticker & Sparklines -->
+                        <div class="stock-ticker-list">
+                            <div class="stock-item">
+                                <div class="stock-info">
+                                    <span class="stock-symbol">AAPL</span>
+                                    <span class="stock-name">Apple Inc.</span>
+                                </div>
+                                <canvas class="sparkline" id="spark-aapl" width="80" height="24"></canvas>
+                                <div class="stock-price-block up">
+                                    <span class="stock-price">$189.42</span>
+                                    <span class="stock-change">+1.24%</span>
+                                </div>
+                            </div>
+                            <div class="stock-item">
+                                <div class="stock-info">
+                                    <span class="stock-symbol">NVDA</span>
+                                    <span class="stock-name">NVIDIA Corp.</span>
+                                </div>
+                                <canvas class="sparkline" id="spark-nvda" width="80" height="24"></canvas>
+                                <div class="stock-price-block up">
+                                    <span class="stock-price">$875.12</span>
+                                    <span class="stock-change">+3.82%</span>
+                                </div>
+                            </div>
+                            <div class="stock-item">
+                                <div class="stock-info">
+                                    <span class="stock-symbol">TSLA</span>
+                                    <span class="stock-name">Tesla Inc.</span>
+                                </div>
+                                <canvas class="sparkline" id="spark-tsla" width="80" height="24"></canvas>
+                                <div class="stock-price-block down">
+                                    <span class="stock-price">$171.05</span>
+                                    <span class="stock-change">-0.87%</span>
+                                </div>
+                            </div>
+                            <div class="stock-item">
+                                <div class="stock-info">
+                                    <span class="stock-symbol">BTC-USD</span>
+                                    <span class="stock-name">Bitcoin</span>
+                                </div>
+                                <canvas class="sparkline" id="spark-btc" width="80" height="24"></canvas>
+                                <div class="stock-price-block up">
+                                    <span class="stock-price">$67,240</span>
+                                    <span class="stock-change">+0.95%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WIDGET 2: News Headlines -->
+                <div class="widget-card" id="widget-news">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <path d="M16 8h2M16 12h2M8 8h5M8 12h5M8 16h10"/>
+                            </svg>
+                            <h3>NEWS FEED HEADLINES</h3>
+                        </div>
+                        <div class="news-controls">
+                            <span class="feed-source">NEXUSAI AGGREGATOR</span>
+                        </div>
+                    </div>
+                    <div class="card-body feed-body">
+                        <!-- Auto-scrolling News Container -->
+                        <div class="news-scroll-container">
+                            <div class="news-item">
+                                <div class="news-meta">
+                                    <span class="news-tag market">MARKET</span>
+                                    <span class="news-time">10m ago</span>
+                                </div>
+                                <h4 class="news-headline">Fed hints at interest rate stability; Tech stocks rally in pre-market trade.</h4>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-meta">
+                                    <span class="news-tag tech">TECH</span>
+                                    <span class="news-time">45m ago</span>
+                                </div>
+                                <h4 class="news-headline">Ollama pushes v0.5.2 updating local inference speeds for Llama3 and DeepSeek models.</h4>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-meta">
+                                    <span class="news-tag global">GLOBAL</span>
+                                    <span class="news-time">2h ago</span>
+                                </div>
+                                <h4 class="news-headline">Global chip supply chain shifts focus towards automated modular fab facilities.</h4>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-meta">
+                                    <span class="news-tag market">MARKET</span>
+                                    <span class="news-time">3h ago</span>
+                                </div>
+                                <h4 class="news-headline">AI hardware demand pushes NVIDIA market capitalization to historic thresholds.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WIDGET 3: System Status -->
+                <div class="widget-card" id="widget-system">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                                <line x1="6" x2="6" y1="6" y2="6"/>
+                                <line x1="6" x2="6" y1="18" y2="18"/>
+                            </svg>
+                            <h3>SYSTEM DIAGNOSTICS</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="system-stats-grid">
+                            <div class="sys-meta-item">
+                                <span class="sys-label">ACTIVE BACKEND</span>
+                                <span class="sys-val highlight-cyan">Ollama API (Local)</span>
+                            </div>
+                            <div class="sys-meta-item">
+                                <span class="sys-label">ACTIVE MODEL</span>
+                                <span class="sys-val highlight-blue" id="active-model-name">qwen2.5-coder</span>
+                            </div>
+                            <div class="sys-meta-item">
+                                <span class="sys-label">CONDA ENVIRONMENT</span>
+                                <span class="sys-val highlight-magenta">(nexus-env)</span>
+                            </div>
+                        </div>
+                        
+                        <!-- CPU Mini Graph -->
+                        <div class="mini-graph-container">
+                            <div class="graph-info">
+                                <span class="graph-title">CPU METRIC</span>
+                                <span class="graph-value" id="cpu-value">22%</span>
+                            </div>
+                            <canvas class="sys-chart" id="cpu-chart" height="50"></canvas>
+                        </div>
+                        
+                        <!-- RAM Mini Graph -->
+                        <div class="mini-graph-container">
+                            <div class="graph-info">
+                                <span class="graph-title">RAM METRIC</span>
+                                <span class="graph-value" id="ram-value">9 GB</span>
+                            </div>
+                            <canvas class="sys-chart" id="ram-chart" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- 5. BOTTOM COMMAND BAR -->
+        <footer class="command-bar-container">
+            <div class="command-prefix">NEXUS &gt;</div>
+            <div class="command-input-wrapper">
+                <input type="text" class="command-input" id="command-input" placeholder="Ask Nexus... (type /help for commands)" autocomplete="off" spellcheck="false">
+                <span class="blinking-cursor"></span>
+            </div>
+            
+            <button class="action-btn" id="mic-btn" title="Toggle Voice Recognition (Speak to Core)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+                    <line x1="12" x2="12" y1="19" y2="22"/>
+                </svg>
+            </button>
+            <button class="action-btn" id="send-btn" title="Submit Command">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" x2="11" y1="2" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+            </button>
+        </footer>
+    </div>
+
+    <!-- TERMINAL POPUP PANEL (Fades in for commands output) -->
+    <div class="terminal-overlay" id="terminal-overlay">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-title">NEXUS SYSTEM TERMINAL</div>
+                <button class="terminal-close" id="terminal-close-btn">&times;</button>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                <div class="terminal-line system">&gt;&gt; Initializing local shell environment...</div>
+                <div class="terminal-line system">&gt;&gt; Connected to NexusAI market_pulse.py core.</div>
+                <div class="terminal-line system">&gt;&gt; Connected to Ollama local instance port 11434.</div>
+                <div class="terminal-line system">&gt;&gt; Type '/help' inside the main command bar to query valid commands.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT ENTRY -->
+    <script src="app.js"></script>
+</body>
+</html>

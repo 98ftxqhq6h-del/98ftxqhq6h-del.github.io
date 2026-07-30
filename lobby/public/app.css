@@ -1,0 +1,334 @@
+:root {
+  --primary-color: #ff4747;
+  --primary-glow: rgba(255, 71, 71, 0.4);
+  --bg-color: #0b0f19;
+  --card-bg: rgba(20, 27, 45, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #f0f3f8;
+  --text-secondary: #94a3b8;
+  --accent-blue: #00d2ff;
+  --success-color: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding: 16px;
+}
+
+/* Background Glowing Orbs */
+.glow-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.orb-red {
+  background-color: var(--primary-color);
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+}
+
+.orb-blue {
+  background-color: var(--accent-blue);
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  right: -150px;
+}
+
+/* App Main Container */
+.app-card {
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  height: 85vh;
+  min-height: 550px;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Header */
+.app-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lobster-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.brand h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #fff 30%, var(--primary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--text-secondary);
+  border-radius: 50%;
+}
+
+.status-indicator.connected .pulse-dot {
+  background-color: var(--success-color);
+  box-shadow: 0 0 8px var(--success-color);
+  animation: pulse 1.8s infinite;
+}
+
+/* Dialogue Viewport */
+.assistant-viewport {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dialogue-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.message {
+  max-width: 85%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  animation: fadeIn 0.3s ease;
+}
+
+.message.assistant {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  color: var(--text-primary);
+}
+
+.message.user {
+  background: linear-gradient(135deg, var(--primary-color), #dd2c2c);
+  border-bottom-right-radius: 4px;
+  align-self: flex-end;
+  color: #ffffff;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* Waveform Animation */
+.waveform {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  margin: 10px 0;
+}
+
+.waveform.hidden {
+  display: none;
+}
+
+.waveform span {
+  width: 4px;
+  height: 8px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.waveform span:nth-child(2) { animation-delay: 0.1s; }
+.waveform span:nth-child(3) { animation-delay: 0.2s; }
+.waveform span:nth-child(4) { animation-delay: 0.3s; }
+.waveform span:nth-child(5) { animation-delay: 0.4s; }
+.waveform span:nth-child(6) { animation-delay: 0.5s; }
+.waveform span:nth-child(7) { animation-delay: 0.6s; }
+.waveform span:nth-child(8) { animation-delay: 0.7s; }
+.waveform span:nth-child(9) { animation-delay: 0.8s; }
+.waveform span:nth-child(10) { animation-delay: 0.9s; }
+
+/* Control Area */
+.controls-area {
+  padding: 24px;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.speech-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mic-btn {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--primary-color), #dd2c2c);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px var(--primary-glow);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.mic-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(255, 71, 71, 0.6);
+}
+
+.mic-btn:active {
+  transform: scale(0.95);
+}
+
+.mic-btn.recording {
+  background: #ff0000;
+  animation: recordingPulse 1.5s infinite;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+
+.mic-svg {
+  width: 32px;
+  height: 32px;
+}
+
+#instruction-prompt {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+/* Text Input Row */
+.text-input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.text-input-row input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input-row input:focus {
+  border-color: var(--primary-color);
+}
+
+.send-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 14px;
+  color: white;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.send-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(3); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes recordingPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}

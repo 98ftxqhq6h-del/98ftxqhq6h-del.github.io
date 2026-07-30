@@ -1,0 +1,27 @@
+{
+  "ollama": {
+    "host": "http://localhost:11434",
+    "model": "llama3.2"
+  },
+  "telegram": {
+    "enabled": false,
+    "token": ""
+  },
+  "discord": {
+    "enabled": false,
+    "token": "",
+    "clientId": ""
+  },
+  "slack": {
+    "enabled": false,
+    "token": "",
+    "appToken": ""
+  },
+  "whatsapp": {
+    "enabled": false
+  },
+  "web": {
+    "port": 3000,
+    "host": "0.0.0.0"
+  }
+}

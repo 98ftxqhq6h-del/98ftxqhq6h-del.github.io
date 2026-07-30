@@ -1,0 +1,21 @@
+# ==========================================================================
+# NEXUS CORE API — SYSTEM CONFIGURATION
+# ==========================================================================
+
+# Active Model Routing
+default_model: "qwen2.5-coder"
+ollama_url: "http://localhost:11434"
+
+# Toggle-gated paid cloud providers (OFF by default for local-first preference)
+use_openai: false
+use_xai: false
+
+# Model overrides per intent (optional)
+intent_model_overrides:
+  general_chat: "qwen2.5-coder"
+  code_task: "qwen2.5-coder"
+  market_query: "qwen2.5-coder"
+
+# API integration toggles
+github_enabled: true
+telegram_enabled: true

@@ -1,0 +1,25 @@
+{
+  "name": "lobby-assistant",
+  "version": "1.0.0",
+  "description": "Private, local, lobster-themed AI assistant with chat app integrations and voice capabilities",
+  "main": "src/daemon.js",
+  "type": "module",
+  "bin": {
+    "lobby": "./bin/lobby.js"
+  },
+  "scripts": {
+    "start": "node src/daemon.js",
+    "setup": "node bin/setup.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0",
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.3",
+    "discord.js": "^14.15.3",
+    "@slack/socket-mode": "^2.0.1",
+    "@slack/web-api": "^7.3.0",
+    "whatsapp-web.js": "^1.23.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

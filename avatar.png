@@ -1,0 +1,6 @@
+{
+  "name": "search_web",
+  "parameters": {
+    "query": "function call for reading file content"
+  }
+}

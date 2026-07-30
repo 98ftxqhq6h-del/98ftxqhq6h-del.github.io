@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lobby - Local Voice Assistant</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="glow-container">
+    <div class="glow-orb orb-red"></div>
+    <div class="glow-orb orb-blue"></div>
+  </div>
+
+  <main class="app-card">
+    <header class="app-header">
+      <div class="brand">
+        <span class="lobster-icon">🦞</span>
+        <h1>Lobby</h1>
+      </div>
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span id="status-text">DISCONNECTED</span>
+      </div>
+    </header>
+
+    <section class="assistant-viewport">
+      <div id="dialogue-box" class="dialogue-box">
+        <div class="message assistant">
+          <p>*clicks claws* Hello! I'm Lobby, your claw-some local assistant. Tap the shell-phone below and let's chat!</p>
+        </div>
+      </div>
+      
+      <!-- Voice Waveform Animation -->
+      <div id="waveform" class="waveform hidden">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <footer class="controls-area">
+      <div class="speech-controls">
+        <button id="mic-btn" class="mic-btn" aria-label="Talk to Lobby">
+          <svg class="mic-svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z" />
+          </svg>
+        </button>
+        <span id="instruction-prompt">TAP TO TALK</span>
+      </div>
+      
+      <div class="text-input-row">
+        <input type="text" id="text-query" placeholder="Type a message instead..." autocomplete="off">
+        <button id="send-btn" class="send-btn">Send</button>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

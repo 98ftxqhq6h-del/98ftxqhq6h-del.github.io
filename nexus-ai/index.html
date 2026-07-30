@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="NEXUS AI — Next-Generation Artificial Superintelligence. Enter the classified quantum neural network console interface.">
   <meta name="theme-color" content="#00f0ff">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://localhost:* ws://localhost:*;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>NEXUS AI // CLASSIFIED SUPERINTELLIGENCE OS</title>
   
   <!-- CSS Stylesheets -->
@@ -46,6 +49,7 @@
       <a href="#projects">Projects</a>
       <a href="#assistant">Assistant</a>
       <a href="#network">Network</a>
+      <a href="#system-stats">Stats</a>
       <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </div>
@@ -55,6 +59,10 @@
       <span></span>
       <span></span>
     </button>
+    <div class="connection-status" id="connectionStatus">
+      <span class="status-dot offline"></span>
+      <span class="status-text mono">OFFLINE</span>
+    </div>
   </nav>
 
   <!-- ═══════════════════ HERO SECTION ═══════════════════ -->
@@ -84,8 +92,8 @@
       </div>
 
       <div class="hero-cta">
-        <button class="btn btn--primary magnetic-btn" onclick="document.getElementById('brain').scrollIntoView({behavior:'smooth'})">CONNECT_NEURAL_CORE</button>
-        <button class="btn btn--outline magnetic-btn" onclick="document.getElementById('assistant').scrollIntoView({behavior:'smooth'})">LAUNCH_CHAT_CLIENT</button>
+        <button class="btn btn--primary magnetic-btn" onclick="connectNeuralCore().then(ok => { if(ok) document.getElementById('brain').scrollIntoView({behavior:'smooth'}); })">CONNECT_NEURAL_CORE</button>
+        <button class="btn btn--outline magnetic-btn" onclick="document.getElementById('assistant').scrollIntoView({behavior:'smooth'}); setTimeout(() => document.getElementById('chatInput').focus(), 500);">LAUNCH_CHAT_CLIENT</button>
       </div>
     </div>
   </header>
@@ -302,6 +310,10 @@
         <div class="avatar-hologram" aria-label="Assistant Hologram">🤖</div>
         <h3 class="mono">NEXUS.CORE</h3>
         <span class="section-label" style="font-size:10px; margin-top:5px;">COGNITIVE_ACTIVE</span>
+        <div class="provider-badge" id="providerBadge">
+          <span class="provider-icon">🔄</span>
+          <span class="provider-name">AUTO</span>
+        </div>
         
         <div class="assistant-waveform">
           <div class="waveform-bar" style="animation-delay: 0.1s;"></div>
@@ -314,12 +326,13 @@
 
       <div class="assistant-chat-panel">
         <div class="chat-history" id="chatHistory">
-          <div class="chat-bubble bot">> Welcome to the NEXUS AI operating system. Standing by to resolve logic vectors. Click mic to speak or enter prompt below.</div>
+          <div class="chat-bubble bot">&gt; Welcome to the NEXUS AI operating system. Standing by to resolve logic vectors. Click mic to speak or enter prompt below.</div>
         </div>
         <div class="chat-input-bar">
           <input type="text" class="chat-input" id="chatInput" placeholder="Enter logic request..." autocomplete="off">
           <div style="display: flex; gap: 8px;">
             <button class="btn btn--outline btn-icon magnetic-btn" id="voiceToggle" aria-label="Record Voice">🎤</button>
+            <button class="btn btn--outline btn-icon magnetic-btn jarvis-toggle" id="jarvisToggle" aria-label="Jarvis Mode">🤖</button>
             <button class="btn btn--primary btn-icon magnetic-btn" id="submitChat" style="padding:12px 18px;">SEND</button>
           </div>
         </div>
@@ -426,6 +439,56 @@
       </form>
     </div>
   </section>
+
+  <!-- ═══════════════════ SECTION: SYSTEM TELEMETRY ═══════════════════ -->
+  <section id="system-stats">
+    <div class="section-header reveal">
+      <span class="section-label">// SECTION_09</span>
+      <h2 class="section-title">System <span>Telemetry</span></h2>
+    </div>
+    <div class="telemetry-panel reveal">
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">CPU_LOAD</div>
+          <div class="telemetry-bar"><div class="telemetry-fill" id="cpuBar" style="width: 0%"></div></div>
+          <div class="telemetry-value mono" id="cpuValue">0%</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">MEMORY</div>
+          <div class="telemetry-bar"><div class="telemetry-fill telemetry-fill--green" id="memBar" style="width: 0%"></div></div>
+          <div class="telemetry-value mono" id="memValue">0%</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">AI_MODEL</div>
+          <div class="telemetry-value mono" id="modelValue" style="font-size: 16px;">DETECTING...</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">LATENCY</div>
+          <div class="telemetry-value mono" id="latencyValue">--ms</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">UPTIME</div>
+          <div class="telemetry-value mono" id="uptimeValue">00h 00m 00s</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label mono">REQUESTS</div>
+          <div class="telemetry-value mono" id="requestsValue">0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ JARVIS VOICE OVERLAY ═══════════════════ -->
+  <div class="jarvis-overlay" id="jarvisOverlay">
+    <div class="jarvis-container">
+      <div class="jarvis-waveform" id="jarvisWaveform">
+        <canvas id="jarvisCanvas" width="600" height="200"></canvas>
+      </div>
+      <div class="jarvis-status mono" id="jarvisStatus">NEXUS VOICE INTERFACE // STANDBY</div>
+      <div class="jarvis-transcript" id="jarvisTranscript"></div>
+      <button class="btn btn--primary magnetic-btn jarvis-close" id="jarvisClose">EXIT_VOICE_MODE</button>
+    </div>
+  </div>
 
   <!-- ═══════════════════ FOOTER ═══════════════════ -->
   <footer>

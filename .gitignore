@@ -29,3 +29,5 @@ ENV/
 *.njsproj
 *.sln
 *.swp
+home deshbord/NexusAI/database/nexus_ai.db
+home deshbord/nexus-core/db/history.db

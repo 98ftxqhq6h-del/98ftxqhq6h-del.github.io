@@ -1,0 +1,28 @@
+# ==========================================================================
+# NEXUS AI DESKTOP ASSISTANT — SYSTEM CONFIGURATION
+# ==========================================================================
+
+# Network Ports
+backend_port: 8000
+frontend_port: 5173
+
+# Active Local LLM Configuration
+default_model: "qwen2.5-coder"
+ollama_url: "http://localhost:11434"
+
+# Toggle-gated paid cloud LLM endpoints (OFF by default for privacy)
+use_openai: false
+use_xai: false
+
+# Model targets per prompt intent
+intent_models:
+  general_chat: "qwen2.5-coder"
+  code_task: "qwen2.5-coder"
+  market_query: "qwen2.5-coder"
+  system_command: "local-utilities"
+
+# API integration toggles
+github_enabled: true
+telegram_enabled: true
+voice_stt_enabled: true
+voice_tts_enabled: false # TTS off by default

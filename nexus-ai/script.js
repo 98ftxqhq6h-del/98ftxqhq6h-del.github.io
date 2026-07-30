@@ -4,6 +4,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ─── 0. Backend API Configuration ──────────────────────
+  const API_BASE = 'http://localhost:8000';
+  let isConnected = false;
+  let currentProvider = 'auto';
+  let wsConnection = null;
+
   // ─── 1. Spotlight Mouse Follow Effect ──────────────────────
   const spotlight = document.getElementById('spotlight');
   if (spotlight) {
@@ -67,6 +73,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
   runBootSequence();
 
+
+  // ─── 2.5. Neural Core Connection ──────────────────────
+  async function connectNeuralCore() {
+    const statusDot = document.querySelector('.status-dot');
+    const statusText = document.querySelector('.status-text');
+    if (statusDot) statusDot.className = 'status-dot connecting';
+    if (statusText) statusText.textContent = 'CONNECTING...';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(5000) });
+      if (res.ok) {
+        isConnected = true;
+        if (statusDot) statusDot.className = 'status-dot online';
+        if (statusText) statusText.textContent = 'CONNECTED';
+        initWebSocket();
+        checkProviders();
+        return true;
+      }
+    } catch (e) {
+      console.warn('NEXUS Backend offline, using fallback mode');
+    }
+    isConnected = false;
+    if (statusDot) statusDot.className = 'status-dot offline';
+    if (statusText) statusText.textContent = 'OFFLINE';
+    return false;
+  }
+
+  setTimeout(connectNeuralCore, 3000);
+
+  async function checkProviders() {
+    try {
+      const res = await fetch(`${API_BASE}/api/chat/providers`, { method: 'POST' });
+      const data = await res.json();
+      const badge = document.getElementById('providerBadge');
+      if (badge && data.active) {
+        badge.setAttribute('data-provider', data.active);
+        badge.querySelector('.provider-name').textContent = data.active.toUpperCase();
+        badge.querySelector('.provider-icon').textContent = data.active === 'ollama' ? '🦙' : data.active === 'openai' ? '🤖' : '⚡';
+      }
+    } catch (e) { /* silent */ }
+  }
+
+  function initWebSocket() {
+    if (wsConnection) wsConnection.close();
+    try {
+      wsConnection = new WebSocket(`${API_BASE.replace('http', 'ws')}/ws/stats`);
+      wsConnection.onmessage = (event) => {
+        const stats = JSON.parse(event.data);
+        const cpuBar = document.getElementById('cpuBar');
+        const cpuVal = document.getElementById('cpuValue');
+        const memBar = document.getElementById('memBar');
+        const memVal = document.getElementById('memValue');
+        const modelVal = document.getElementById('modelValue');
+        const latencyVal = document.getElementById('latencyValue');
+        const uptimeVal = document.getElementById('uptimeValue');
+        const reqVal = document.getElementById('requestsValue');
+
+        if (cpuBar) cpuBar.style.width = `${stats.cpu_percent}%`;
+        if (cpuVal) cpuVal.textContent = `${stats.cpu_percent.toFixed(1)}%`;
+        if (memBar) memBar.style.width = `${stats.memory_percent}%`;
+        if (memVal) memVal.textContent = `${stats.memory_percent.toFixed(1)}%`;
+        if (modelVal) modelVal.textContent = `${stats.active_provider.toUpperCase()} / ${stats.active_model}`;
+        if (latencyVal) latencyVal.textContent = `${stats.latency_ms || '--'}ms`;
+        if (reqVal) reqVal.textContent = stats.total_requests.toLocaleString();
+
+        if (uptimeVal) {
+          const s = Math.floor(stats.uptime_seconds);
+          const h = Math.floor(s / 3600);
+          const m = Math.floor((s % 3600) / 60);
+          const sec = s % 60;
+          uptimeVal.textContent = `${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(sec).padStart(2,'0')}s`;
+        }
+      };
+      wsConnection.onclose = () => setTimeout(initWebSocket, 5000);
+    } catch (e) { /* silent */ }
+  }
 
   // ─── 3. Flying Vehicles Generator (Megacity Backdrop) ──────
   function spawnMegacityVehicles() {
@@ -618,12 +700,11 @@ document.addEventListener('DOMContentLoaded', () => {
     "TERMINAL_REPLY: Initializing requested AI subroutines. Welcome to the classified NEXUS Superintelligence interface."
   ];
 
-  function handleChatSubmit() {
+  async function handleChatSubmit() {
     if (!chatInput || !chatHistory) return;
     const userText = chatInput.value.trim();
     if (!userText) return;
 
-    // 1. Append User Bubble
     const userBubble = document.createElement('div');
     userBubble.className = 'chat-bubble user';
     userBubble.textContent = userText;
@@ -631,27 +712,44 @@ document.addEventListener('DOMContentLoaded', () => {
     chatInput.value = '';
     chatHistory.scrollTop = chatHistory.scrollHeight;
 
-    // 2. Waveform active
+    const botBubble = document.createElement('div');
+    botBubble.className = 'chat-bubble bot streaming';
+    botBubble.innerHTML = '&gt; <span class="typing-cursor"></span>';
+    chatHistory.appendChild(botBubble);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
     animateWaveform(true);
 
-    // 3. Bot reply step
-    setTimeout(() => {
-      const botBubble = document.createElement('div');
-      botBubble.className = 'chat-bubble bot';
-      botBubble.innerHTML = `> Processing synaptic vectors... <span class="blink">_</span>`;
-      chatHistory.appendChild(botBubble);
-      chatHistory.scrollTop = chatHistory.scrollHeight;
-
+    if (isConnected) {
+      try {
+        const res = await fetch(`${API_BASE}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userText, provider: currentProvider }),
+        });
+        const data = await res.json();
+        botBubble.classList.remove('streaming');
+        botBubble.innerHTML = `&gt; ${data.response}`;
+        const badge = document.getElementById('providerBadge');
+        if (badge) {
+          badge.setAttribute('data-provider', data.provider_used);
+          badge.querySelector('.provider-name').textContent = data.provider_used.toUpperCase();
+        }
+        speakText(data.response);
+      } catch (e) {
+        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+        botBubble.classList.remove('streaming');
+        botBubble.innerHTML = `&gt; ${randomReply}`;
+        speakText(randomReply);
+      }
+    } else {
       setTimeout(() => {
         const randomReply = replies[Math.floor(Math.random() * replies.length)];
-        botBubble.innerHTML = `> ${randomReply}`;
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-        
-        // Speak response out loud using Web Speech Synthesis
+        botBubble.classList.remove('streaming');
+        botBubble.innerHTML = `&gt; ${randomReply}`;
         speakText(randomReply);
-      }, 1200);
-
-    }, 600);
+      }, 800);
+    }
+    chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
   function animateWaveform(active) {

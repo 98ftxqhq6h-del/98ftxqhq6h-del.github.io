@@ -1,0 +1,22 @@
+{
+  "name": "nexus-ai",
+  "version": "2.0.0",
+  "description": "Futuristic Desktop AI Command-Center OS for MacBook Air M5",
+  "main": "electron/main.js",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install",
+    "backend:run": "python3 -m uvicorn backend.main:app --host 127.0.0.1 --port 8000",
+    "frontend:run": "cd frontend && npm run dev",
+    "electron:run": "electron . --dev",
+    "start": "concurrently \"npm run backend:run\" \"npm run frontend:run\" \"electron . --dev\"",
+    "run": "npm start"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {
+    "electron": "^37.10.3"
+  },
+  "author": "Anurag",
+  "license": "MIT"
+}
