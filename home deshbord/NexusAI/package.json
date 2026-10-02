@@ -15,7 +15,7 @@
     "concurrently": "^8.2.2"
   },
   "devDependencies": {
-    "electron": "^37.10.3"
+    "electron": "^44.5.1"
   },
   "author": "Anurag",
   "license": "MIT"
