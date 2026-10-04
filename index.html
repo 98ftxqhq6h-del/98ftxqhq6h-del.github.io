@@ -3,66 +3,329 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXUS AI</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' ws: wss:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>NEXUS SYSTEM GATEWAY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --bg-dark: #07090d;
+      --neon-cyan: #00f0ff;
+      --neon-green: #39ff14;
+      --neon-pink: #ff0055;
+      --panel-bg: rgba(14, 18, 28, 0.7);
+      --border-color: rgba(0, 240, 255, 0.15);
+      --font-hud: 'Share Tech Mono', monospace;
+      --font-body: 'Outfit', sans-serif;
+    }
 
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      min-height: 100vh;
-      background: #050816;
-      color: #00f5ff;
-      font-family: Arial, sans-serif;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      font-family: var(--font-body);
+      color: #fff;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    .nexus {
+    /* Ambient animated neon grids */
+    .space-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .space-blur {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+      top: 10%;
+      left: 10%;
+      z-index: 2;
+      pointer-events: none;
+      filter: blur(50px);
+      animation: drift 15s infinite alternate ease-in-out;
+    }
+
+    .space-blur.pink {
+      background: radial-gradient(circle, rgba(255, 0, 85, 0.08) 0%, transparent 70%);
+      top: 60%;
+      left: 60%;
+      animation: drift 18s infinite alternate-reverse ease-in-out;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(80px, 50px) scale(1.2); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1080px;
+      padding: 40px 24px;
       text-align: center;
-      padding: 40px;
     }
 
-    h1 {
-      font-size: 52px;
+    /* Gateway Logo and header */
+    .header {
+      margin-bottom: 50px;
+    }
+
+    .title {
+      font-family: var(--font-hud);
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px var(--neon-cyan);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-family: var(--font-hud);
+      font-size: 12px;
+      color: var(--neon-cyan);
       letter-spacing: 8px;
-      margin: 0 0 15px;
-      text-shadow: 0 0 25px #00f5ff;
+      opacity: 0.6;
+      text-transform: uppercase;
     }
 
-    p {
-      color: #b8c7d9;
-      font-size: 18px;
+    /* Portal Grid Layout */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
     }
 
-    button {
-      margin-top: 25px;
-      padding: 14px 30px;
-      border: 1px solid #00f5ff;
-      border-radius: 10px;
-      background: transparent;
-      color: #00f5ff;
-      font-size: 16px;
+    .portal-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      padding: 36px 24px;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 460px;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-glow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--card-glow-alpha);
+    }
+
+    .portal-card.portfolio-card {
+      --card-glow: var(--neon-cyan);
+      --card-glow-alpha: rgba(0, 240, 255, 0.15);
+    }
+
+    .portal-card.game-card {
+      --card-glow: var(--neon-green);
+      --card-glow-alpha: rgba(57, 255, 20, 0.15);
+    }
+
+    .portal-card.video-card {
+      --card-glow: var(--neon-pink);
+      --card-glow-alpha: rgba(255, 0, 85, 0.15);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-family: var(--font-hud);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: #a0aec0;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-hud);
+      font-size: 13px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #00f5ff;
-      color: #050816;
+    .portal-card:hover .btn {
+      border-color: var(--card-glow);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .portal-card:hover .btn:hover {
+      background: var(--card-glow);
+      color: #000;
+      box-shadow: 0 0 12px var(--card-glow);
+    }
+
+    /* Diagnostics Log Console */
+    .console-footer {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: left;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #a0aec0;
+    }
+
+    .console-header {
+      color: var(--neon-cyan);
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .blink {
+      animation: blink-anim 1s infinite step-start;
+    }
+
+    @keyframes blink-anim {
+      50% { opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="nexus">
-    <h1>NEXUS</h1>
-    <p>Next-Generation Personal AI</p>
-    <button onclick="openNexus()">INITIALIZE NEXUS</button>
-  </div>
+  <!-- Ambient Space Backdrops -->
+  <div class="space-grid"></div>
+  <div class="space-blur"></div>
+  <div class="space-blur pink"></div>
 
-  <script>
-    function openNexus() {
-      alert("NEXUS AI initialized.");
-    }
-  </script>
+  <!-- Gateway Main Interface -->
+  <div class="container">
+    <div class="header">
+      <h1 class="title">NEXUS // PORTAL</h1>
+      <div class="subtitle">Select Gateway Protocol</div>
+    </div>
+
+    <div class="portal-grid">
+      <!-- Card 1: Portfolio -->
+      <div class="portal-card portfolio-card">
+        <div>
+          <div class="card-icon">📂</div>
+          <div class="card-title">PORTFOLIO & STORE</div>
+          <div class="card-desc">
+            Explore independent coding projects, educational timelines, developer capabilities, and the digital assets storefront catalog.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="portfolio/index.html" class="btn">LAUNCH_PORTFOLIO</a>
+          <a href="portfolio/store.html" class="btn">OPEN_TECH_STORE</a>
+          <a href="portfolio/chatbot.html" class="btn">LOCAL_AI_CHATBOT</a>
+          <a href="portfolio/data_platform.html" class="btn">OPEN_DATA_PLATFORM</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Games -->
+      <div class="portal-card game-card">
+        <div>
+          <div class="card-icon">🎮</div>
+          <div class="card-title">COMBAT & HACKING</div>
+          <div class="card-desc">
+            Deploy cyberdeck subroutines (Ping, Overload, Hijack) in the zero-protocol simulator, or test tactical lasers in the first-person battle arena.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="game/nexus_zero.html" class="btn">RUN_NEXUS_ZERO</a>
+          <a href="game/game.html" class="btn">PLAY_TACTICAL_ARENA</a>
+        </div>
+      </div>
+
+      <!-- Card 3: Video Ambiance -->
+      <div class="portal-card video-card">
+        <div>
+          <div class="card-icon">🌸</div>
+          <div class="card-title">LOFI COZY STREAM</div>
+          <div class="card-desc">
+            Listen to procedural lofi audio streams and weather rain ASMR inside the animated developer cottage featuring dynamic day/night filters.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="video/anime_house.html" class="btn">ENTER_AMBIANCE_STREAM</a>
+        </div>
+      </div>
+
+      <!-- Card 4: Nexus AI OS -->
+      <div class="portal-card portfolio-card">
+        <div>
+          <div class="card-icon">🧠</div>
+          <div class="card-title">NEXUS AI SYSTEM</div>
+          <div class="card-desc">
+            Access the classified quantum neural network console interface of the world's most advanced Artificial Superintelligence.
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="nexus-ai/index.html" class="btn">LAUNCH_NEXUS_AI</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- System External Connections Panel -->
+    <div style="display: flex; justify-content: center; gap: 16px; margin: 32px auto 24px auto; max-width: 720px; width: 100%;">
+      <a href="https://github.com/98ftxqhq6h-del/98ftxqhq6h-del.github.io" target="_blank" class="btn" style="flex: 1; border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);">GITHUB_REPOSITORY</a>
+      <a href="https://anuragkumar.com" target="_blank" class="btn" style="flex: 1; border-color: var(--neon-green); box-shadow: 0 0 10px rgba(57, 255, 20, 0.1);">LIVE_DEPLOYMENT</a>
+    </div>
+
+    <!-- Diagnostic logs footer console -->
+    <div class="console-footer mono">
+      <div class="console-header">NEXUS SYSTEM DIAGNOSTICS // PROTOCOL RESET</div>
+      <div>&gt; ALL SECTORS SYNCHRONIZED [PORTFOLIO, GAME, VIDEO]</div>
+      <div>&gt; SECURE COGNITIVE NEURAL CONNECTIONS: SUCCESS</div>
+      <div>&gt; GATEWAYS OPERATIONAL. WAITING FOR INPUT<span class="blink">_</span></div>
+    </div>
+  </div>
 </body>
 </html>
